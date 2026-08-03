@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>神经外科学习网 · NeuroSurg Learning Hub</title>
+<meta name="description" content="神经外科系统学习平台：病种知识库、解剖图谱、手术方式详解、视频资源导航">
+<style>
+:root{
+  --primary:#2d7dd2; --primary-dark:#1a5fa8; --primary-light:#e8f1fb;
+  --ink:#1e293b; --ink-2:#475569; --ink-3:#94a3b8;
+  --bg:#f5f8fc; --card:#ffffff; --line:#e2e8f0;
+  --warn:#b45309; --warn-bg:#fef3c7; --danger:#c0392b; --danger-bg:#fdecea;
+  --ok:#0e6655; --ok-bg:#e6f7f2;
+  --radius:14px; --shadow:0 1px 3px rgba(30,41,59,.08),0 8px 24px -12px rgba(30,41,59,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:15px}
+a{color:var(--primary);text-decoration:none}
+a:hover{text-decoration:underline}
+/* ---------- 布局 ---------- */
+.layout{display:flex;min-height:100vh}
+.sidebar{width:240px;flex-shrink:0;background:#fff;border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;z-index:50}
+.sidebar .logo{padding:20px 18px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.logo-badge{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#2d7dd2,#17456e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold}
+.logo-text b{font-size:15px;display:block;color:var(--ink)}
+.logo-text span{font-size:11px;color:var(--ink-3)}
+.nav{padding:12px 10px}
+.nav-group{margin-bottom:6px}
+.nav-group-title{font-size:11px;color:var(--ink-3);padding:10px 12px 6px;letter-spacing:1px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;color:var(--ink-2);cursor:pointer;font-size:14px;transition:.15s;margin-bottom:2px}
+.nav-item:hover{background:var(--primary-light);color:var(--primary-dark)}
+.nav-item.active{background:var(--primary);color:#fff;font-weight:600}
+.nav-item .ico{width:20px;text-align:center}
+.main{flex:1;min-width:0;padding:26px 34px 80px}
+/* ---------- 顶部条 ---------- */
+.topbar{display:flex;align-items:center;gap:18px;margin-bottom:24px}
+.topbar h1{font-size:22px;color:var(--ink);flex-shrink:0}
+.search-wrap{flex:1;max-width:460px;position:relative}
+.search-wrap input{width:100%;padding:10px 16px 10px 40px;border:1.5px solid var(--line);border-radius:12px;font-size:14px;background:#fff;outline:none;transition:.15s;font-family:inherit}
+.search-wrap input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(45,125,210,.15)}
+.search-wrap .s-ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
+.search-drop{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:380px;overflow-y:auto;display:none;z-index:100}
+.search-drop.open{display:block}
+.search-drop .sd-item{padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.search-drop .sd-item:last-child{border-bottom:none}
+.search-drop .sd-item:hover{background:var(--primary-light)}
+.search-drop .sd-item b{font-size:14px;color:var(--ink);display:block}
+.search-drop .sd-item span{font-size:12px;color:var(--ink-3)}
+.search-drop .sd-empty{padding:16px;text-align:center;color:var(--ink-3);font-size:13px}
+/* ---------- 卡片 ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:20px}
+.card h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.chip{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-right:6px;vertical-align:1px}
+.chip-basic{background:var(--ok-bg);color:var(--ok)}
+.chip-adv{background:var(--danger-bg);color:var(--danger)}
+.chip-cat{background:var(--primary-light);color:var(--primary-dark)}
+/* ---------- 首页 ---------- */
+.hero{background:linear-gradient(135deg,#17456e 0%,#2d7dd2 60%,#4d95dd 100%);border-radius:18px;padding:42px 38px;color:#fff;margin-bottom:26px;position:relative;overflow:hidden}
+.hero::after{content:"🧠";position:absolute;right:-10px;bottom:-30px;font-size:170px;opacity:.14;transform:rotate(-12deg)}
+.hero h2{font-size:28px;margin-bottom:10px;letter-spacing:.5px}
+.hero p{font-size:15px;opacity:.92;max-width:640px}
+.hero .tags{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.hero .tags span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:5px 14px;border-radius:24px;font-size:13px;backdrop-filter:blur(4px)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1100px){.grid4{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}
+@media(max-width:760px){.sidebar{display:none}.main{padding:18px 14px 60px}.grid4{grid-template-columns:1fr}}
+.sect-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;cursor:pointer;transition:.18s;position:relative;overflow:hidden}
+.sect-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px -12px rgba(23,69,110,.28);border-color:var(--primary)}
+.sect-card .big{font-size:34px;margin-bottom:10px}
+.sect-card b{font-size:16px;display:block;margin-bottom:6px}
+.sect-card p{font-size:13px;color:var(--ink-2)}
+.sect-card .go{position:absolute;right:16px;bottom:14px;font-size:13px;color:var(--primary);font-weight:600;opacity:0;transition:.18s}
+.sect-card:hover .go{opacity:1}
+/* ---------- 分类筛选 ---------- */
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.filter-btn{padding:7px 16px;border-radius:24px;border:1.5px solid var(--line);background:#fff;font-size:13px;color:var(--ink-2);cursor:pointer;transition:.15s;font-family:inherit}
+.filter-btn:hover{border-color:var(--primary);color:var(--primary-dark)}
+.filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
+/* ---------- 病种卡片 ---------- */
+.disease-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow)}
+.dc-head{padding:16px 20px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.dc-head:hover{background:var(--primary-light)}
+.dc-head .t{font-size:16px;font-weight:700}
+.dc-head .arrow{margin-left:auto;color:var(--ink-3);transition:.2s;font-size:13px}
+.disease-card.open .dc-head .arrow{transform:rotate(90deg)}
+.dc-body{display:none;padding:4px 20px 20px;border-top:1px dashed var(--line)}
+.disease-card.open .dc-body{display:block}
+.intro-box{background:var(--primary-light);border-left:4px solid var(--primary);padding:12px 16px;border-radius:8px;margin:14px 0;font-size:14px;color:var(--primary-dark)}
+.sub-block{margin:12px 0}
+.sub-block h4{font-size:13px;color:var(--primary-dark);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.sub-block h4::before{content:"";width:4px;height:14px;background:var(--primary);border-radius:2px}
+.sub-block ul{padding-left:4px;list-style:none}
+.sub-block ul li{position:relative;padding-left:18px;font-size:13.5px;color:var(--ink-2);margin-bottom:4px}
+.sub-block ul li::before{content:"•";position:absolute;left:4px;color:var(--primary);font-weight:bold}
+.warn-box{background:var(--warn-bg);border-left:4px solid var(--warn);padding:10px 14px;border-radius:8px;font-size:13px;color:var(--warn);margin-top:12px}
+/* ---------- 解剖 ---------- */
+.anat-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:24px;box-shadow:var(--shadow);overflow:hidden}
+.anat-head{padding:16px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);background:linear-gradient(90deg,var(--primary-light),#fff)}
+.anat-head b{font-size:16px}
+.anat-body{padding:10px}
+.anat-body svg{width:100%;height:auto;display:block}
+.anat-desc{padding:14px 20px 4px;font-size:13.5px;color:var(--ink-2)}
+.anat-points{padding:10px 20px 18px}
+.anat-points ul{list-style:none}
+.anat-points li{font-size:13px;color:var(--ink-2);padding-left:18px;position:relative;margin-bottom:5px}
+.anat-points li::before{content:"✦";position:absolute;left:0;color:var(--primary);font-size:11px;top:2px}
+/* ---------- 手术 ---------- */
+.sx-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow)}
+.sx-card.open .sx-body{display:block}
+.sx-head{padding:16px 20px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.sx-head:hover{background:var(--primary-light)}
+.sx-head .t{font-size:16px;font-weight:700}
+.sx-body{display:none;padding:4px 20px 20px;border-top:1px dashed var(--line)}
+.step-list{counter-reset:step}
+.step-item{display:flex;gap:12px;margin:8px 0;font-size:13.5px;color:var(--ink-2)}
+.step-item::before{counter-increment:step;content:counter(step);flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--primary);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.kp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:900px){.kp-grid{grid-template-columns:1fr}}
+.kp-box{background:var(--primary-light);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--primary-dark)}
+.kp-box b{display:block;margin-bottom:4px;font-size:13px}
+.kp-box ul{list-style:none;padding:0}
+.kp-box li{padding-left:16px;position:relative;margin-bottom:3px}
+.kp-box li::before{content:"→";position:absolute;left:0;color:var(--primary)}
+.adv-box{background:var(--ok-bg);border-left:4px solid var(--ok);padding:12px 16px;border-radius:8px;font-size:13.5px;color:var(--ok);margin-top:14px}
+/* ---------- 视频 ---------- */
+.vid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:1000px){.vid-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.vid-grid{grid-template-columns:1fr}}
+.vid-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;transition:.18s;display:flex;flex-direction:column}
+.vid-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--primary)}
+.vid-card b{font-size:14.5px;margin-bottom:6px;color:var(--ink)}
+.vid-card p{font-size:12.5px;color:var(--ink-2);flex:1;margin-bottom:10px}
+.vid-card .tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.vid-card .tags span{font-size:10.5px;background:var(--primary-light);color:var(--primary-dark);padding:1px 8px;border-radius:12px}
+.vid-card a{font-size:12.5px;font-weight:600}
+/* ---------- 学习路径 ---------- */
+.path-step{display:flex;gap:18px;margin-bottom:6px;position:relative}
+.path-step::before{content:"";position:absolute;left:21px;top:44px;bottom:-10px;width:2px;background:var(--line)}
+.path-step:last-child::before{display:none}
+.path-num{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff}
+.path-body{flex:1;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px;box-shadow:var(--shadow)}
+.path-body b{font-size:15px;display:block;margin-bottom:6px}
+.path-body p{font-size:13px;color:var(--ink-2);margin-bottom:8px}
+.path-body .pchips{display:flex;gap:6px;flex-wrap:wrap}
+.path-body .pchips span{font-size:11px;background:var(--primary-light);color:var(--primary-dark);padding:2px 10px;border-radius:12px}
+/* ---------- 页脚声明 ---------- */
+.foot-note{margin-top:34px;padding:16px 20px;border-radius:12px;background:#fff8e6;border:1px solid #f0d48a;font-size:12.5px;color:#8a6d1a;line-height:1.8}
+/* 分类色条 */
+.cat-strip{height:5px;border-radius:3px;margin:0 20px 2px}
+/* 空态 */
+.empty{padding:60px 20px;text-align:center;color:var(--ink-3)}
+.empty .e-ico{font-size:44px;margin-bottom:10px}
+/* 面包屑 */
+.breadcrumb{font-size:13px;color:var(--ink-3);margin-bottom:14px}
+.breadcrumb b{color:var(--primary-dark)}
+/* 页脚 */
+.site-foot{margin-top:40px;text-align:center;font-size:12px;color:var(--ink-3);padding-top:20px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- 侧边栏 -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-badge">神</div>
+      <div class="logo-text"><b>神经外科学习网</b><span>NeuroSurg Learning Hub</span></div>
+    </div>
+    <nav class="nav">
+      <div class="nav-group">
+        <div class="nav-group-title">开始学习</div>
+        <div class="nav-item active" data-page="home"><span class="ico">🏠</span>首页总览</div>
+        <div class="nav-item" data-page="path"><span class="ico">🗺️</span>学习路径</div>
+      </div>
+      <div class="nav-group">
+        <div class="nav-group-title">知识体系</div>
+        <div class="nav-item" data-page="diseases"><span class="ico">📖</span>病种知识库</div>
+        <div class="nav-item" data-page="anatomy"><span class="ico">🧩</span>解剖图谱</div>
+        <div class="nav-item" data-page="surgery"><span class="ico">🔬</span>手术方式</div>
+        <div class="nav-item" data-page="videos"><span class="ico">🎬</span>视频资源</div>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- 主内容 -->
+  <div class="main">
+    <div class="topbar">
+      <h1 id="page-title">神经外科学习网</h1>
+      <div class="search-wrap">
+        <span class="s-ico">🔍</span>
+        <input id="search-input" type="text" placeholder="搜索病种 / 手术 / 解剖 / 资源…" autocomplete="off">
+        <div class="search-drop" id="search-drop"></div>
+      </div>
+    </div>
+    <div id="app"></div>
+    <div class="site-foot">神经外科学习网 · 内容参考《王忠诚神经外科学》、Greenberg《神经外科手册》等公开教材整理 · 仅供医学学习交流，不构成诊疗建议</div>
+  </div>
+</div>
+
+<script src="assets/data/diseases.js"></script>
+<script src="assets/data/anatomy.js"></script>
+<script src="assets/data/surgery.js"></script>
+<script src="assets/data/videos.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
