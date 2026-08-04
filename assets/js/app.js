@@ -11,12 +11,13 @@
   const navItems = Array.from(document.querySelectorAll(".nav-item"));
 
   const PAGES = {
-    home:   { title:"神经外科学习网",      label:"首页总览" },
-    path:   { title:"学习路径",            label:"学习路径" },
-    diseases:{ title:"病种知识库",          label:"病种知识库" },
-    anatomy:{ title:"解剖图谱",            label:"解剖图谱" },
-    surgery:{ title:"手术方式详解",         label:"手术方式" },
-    videos: { title:"视频资源导航",         label:"视频资源" }
+    home:    { title:"神经外科学习网",       label:"首页总览" },
+    path:    { title:"学习路径",             label:"学习路径" },
+    hospital:{ title:"上海医大医院神经外科",  label:"医院学科" },
+    diseases:{ title:"病种知识库",           label:"病种知识库" },
+    anatomy: { title:"解剖图谱",             label:"解剖图谱" },
+    surgery: { title:"手术方式详解",          label:"手术方式" },
+    videos:  { title:"视频资源导航",          label:"视频资源" }
   };
 
   let current = "home";
@@ -44,20 +45,20 @@
     $app.innerHTML = `
       <div class="hero">
         <h2>神经外科系统学习平台</h2>
-        <p>从病种基础知识到手术入路，从解剖图谱到手术视频——面向医学生、规培医师与住院医师的分层学习体系，一站式沉淀神经外科核心知识。</p>
+        <p>依托上海医大医院神经外科学科体系打造——覆盖六大亚专科（脑肿瘤、脑血管病、脊柱脊髓、功能神经外科、颅脑创伤、神经重症）的系统学习平台，从病种基础知识到手术入路，面向医学生、规培医师与住院医师的分层学习体系。</p>
         <div class="tags">
-          <span>📖 ${nDis} 个病种</span><span>🧩 ${nAnat} 张解剖图谱</span><span>🔬 ${nSx} 类手术详解</span><span>🎬 ${nVid} 个资源入口</span><span>🎯 基础 · 进阶分层</span>
+          <span>🏥 六大亚专科</span><span>📖 ${nDis} 个病种</span><span>🧩 ${nAnat} 张解剖图谱</span><span>🔬 ${nSx} 类手术详解</span><span>🎬 ${nVid} 个资源入口</span>
         </div>
       </div>
       <div class="grid4">
-        <div class="sect-card" onclick="NS.go('diseases')"><div class="big">📖</div><b>病种知识库</b><p>颅脑损伤 · 脑血管病 · 颅内肿瘤 · 脊柱脊髓 · 功能神外 · 先天与感染，按“基础/进阶”分层精读。</p><span class="go">进入 →</span></div>
+        <div class="sect-card" onclick="NS.go('hospital')"><div class="big">🏥</div><b>医院学科</b><p>科室定位、六大亚专科、院内与国际服务、核心病种与特色技术、转诊规范、培训计划——新入科必读。</p><span class="go">进入 →</span></div>
+        <div class="sect-card" onclick="NS.go('diseases')"><div class="big">📖</div><b>病种知识库</b><p>颅脑损伤 · 脑血管病 · 颅内肿瘤 · 脊柱脊髓 · 功能神外 · 先天与感染，按“基础/进阶”分层精读，🏥 标记医大重点病种。</p><span class="go">进入 →</span></div>
         <div class="sect-card" onclick="NS.go('anatomy')"><div class="big">🧩</div><b>解剖图谱</b><p>颅骨、脑膜、脑叶功能区、脑室系统、Willis 环、脑干颅神经、脊髓——手绘示意图+学习要点。</p><span class="go">进入 →</span></div>
         <div class="sect-card" onclick="NS.go('surgery')"><div class="big">🔬</div><b>手术方式详解</b><p>经典入路（翼点、乙状窦后、经蝶…）、颅脑损伤、脑血管、肿瘤、脊柱、功能手术的关键步骤与要点。</p><span class="go">进入 →</span></div>
-        <div class="sect-card" onclick="NS.go('videos')"><div class="big">🎬</div><b>视频资源导航</b><p>国内外权威教学平台与手术视频库精选入口：The Neurosurgical Atlas、B站、NEJM、CNS/AANS…</p><span class="go">进入 →</span></div>
       </div>
       <div class="card" style="margin-top:24px">
         <h3>🗺️ 推荐学习路径</h3>
-        <p style="font-size:13.5px;color:var(--ink-2)">基础篇：<b>解剖图谱 → 病种知识（基础）→ 影像识别</b>；进阶篇：<b>病种知识（进阶）→ 手术入路 → 手术步骤</b>；最后通过<b>视频资源</b>观摩真实手术、加深理解。也可在右上角搜索框直达任意病种。</p>
+        <p style="font-size:13.5px;color:var(--ink-2)">新入科建议先看 <b>🏥 医院学科</b> 了解科室架构与核心病种 → <b>解剖图谱</b> 打底 → <b>病种知识（基础）</b> → 进阶：<b>病种知识（进阶）→ 手术入路 → 手术步骤</b> → <b>视频资源</b> 观摩真实手术。也可在右上角搜索框直达任意内容。</p>
       </div>
       <div class="foot-note">
         <b>⚠️ 医学声明：</b>本站内容依据公开教材与指南整理，用于医学学习交流。图谱为教学简化示意图，不替代专业解剖图谱；诊疗决策请以最新指南、上级医师意见及患者具体情况为准。
@@ -66,10 +67,12 @@
 
   /* ---------- 病种知识库 ---------- */
   function diseaseCardHTML(d){
+    const isCore = typeof HOSPITAL_CORE_IDS !== "undefined" && HOSPITAL_CORE_IDS.includes(d.id);
     return `
     <div class="disease-card" id="dis-${d.id}">
       <div class="dc-head" onclick="NS.toggleDisease('${d.id}')">
         <span>${chip(d.level)}</span>
+        ${isCore?'<span class="chip" style="background:#fdecea;color:#c0392b">🏥 医大重点</span>':''}
         <span class="t">${esc(d.name)}</span>
         <span class="arrow">▸</span>
       </div>
@@ -245,10 +248,166 @@
       </div>`;
   }
 
+  /* ---------- 医院学科 ---------- */
+  function renderHospital(){
+    const H = HOSPITAL;
+    $app.innerHTML = `
+      <div class="hero" style="background:linear-gradient(135deg,#0f3d5c 0%,#1a6ba8 55%,#2d8fd0 100%)">
+        <h2>${H.dept.name}</h2>
+        <p>${H.dept.positioning} · ${H.dept.subDesc}</p>
+        <div class="tags">
+          <span>🏥 ${H.dept.beds}</span><span>🛏️ ${H.dept.wards.length} 个病区</span><span>🚨 24小时急诊</span><span>🌐 中/英/日/韩/俄</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🗂️ 六大亚专科</h3>
+        <div class="grid4">
+          ${H.specialties.map(s=>`
+          <div class="sect-card" style="cursor:default;padding:18px">
+            <div class="big" style="font-size:28px">${s.icon}</div>
+            <b>${s.name}</b>
+            <p>${s.desc}</p>
+          </div>`).join("")}
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🏛️ 病区配置与核心团队</h3>
+        <div class="grid2">
+          <div>
+            <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:10px">病区配置</h4>
+            ${H.dept.wards.map(w=>`
+            <div style="background:var(--primary-light);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:13px">
+              <b>${w.name}</b> <span style="color:var(--ink-3)">· ${w.loc}</span>
+              <div style="color:var(--ink-2);margin-top:2px">${w.desc}</div>
+            </div>`).join("")}
+          </div>
+          <div>
+            <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:10px">核心团队</h4>
+            ${H.dept.team.map(t=>`
+            <div style="background:var(--ok-bg);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:13px">
+              <b>${t.t}</b>
+              <div style="color:var(--ink-2);margin-top:2px">${t.d}</div>
+            </div>`).join("")}
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h3>🏥 院内服务</h3>
+          ${H.services.items.map(s=>`
+          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)">
+            <span style="font-size:22px">${s.icon}</span>
+            <div>
+              <b style="font-size:14px">${s.name}</b> <span style="font-size:12px;color:var(--primary)">${s.loc}</span>
+              <div style="font-size:12.5px;color:var(--ink-2)">${s.desc}</div>
+            </div>
+          </div>`).join("")}
+        </div>
+        <div class="card">
+          <h3>🌐 国际服务</h3>
+          ${H.international.items.map(s=>`
+          <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)">
+            <span style="font-size:22px">${s.icon}</span>
+            <div>
+              <b style="font-size:14px">${s.name}</b>
+              <div style="font-size:12.5px;color:var(--ink-2)">${s.desc}</div>
+            </div>
+          </div>`).join("")}
+          <div class="warn-box" style="margin-top:12px">${H.international.advantage.map(a=>`✓ ${a}`).join("<br>")}</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎯 核心病种（诊疗要点）</h3>
+        ${H.coreDiseases.map(c=>`
+        <div style="margin-bottom:16px">
+          <h4 style="font-size:15px;color:${c.color};margin-bottom:8px">${c.icon} ${c.cat}</h4>
+          <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+            <tr style="background:var(--primary-light);color:var(--primary-dark)">
+              <th style="padding:8px 10px;text-align:left;border:1px solid var(--line)">病种</th>
+              <th style="padding:8px 10px;text-align:left;border:1px solid var(--line)">临床症状</th>
+              <th style="padding:8px 10px;text-align:left;border:1px solid var(--line)">影像诊断</th>
+              <th style="padding:8px 10px;text-align:left;border:1px solid var(--line)">治疗原则</th>
+            </tr>
+            ${c.items.map(d=>`
+            <tr>
+              <td style="padding:8px 10px;border:1px solid var(--line);font-weight:600">${d.name}</td>
+              <td style="padding:8px 10px;border:1px solid var(--line);color:var(--ink-2)">${d.sx}</td>
+              <td style="padding:8px 10px;border:1px solid var(--line);color:var(--ink-2)">${d.img}</td>
+              <td style="padding:8px 10px;border:1px solid var(--line);color:var(--primary-dark)">${d.tx}</td>
+            </tr>`).join("")}
+          </table>
+          </div>
+        </div>`).join("")}
+      </div>
+
+      <div class="card">
+        <h3>🔬 擅长手术与技术</h3>
+        <div class="grid2">
+          ${H.coreTech.map(c=>`
+          <div>
+            <h4 style="font-size:14px;color:${c.color};margin-bottom:8px">${c.icon} ${c.cat}</h4>
+            ${c.items.map(t=>`
+            <div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:13px">
+              <b>${t.name}</b>
+              <div style="color:var(--ink-2);font-size:12.5px;margin-top:2px">${t.desc}</div>
+            </div>`).join("")}
+          </div>`).join("")}
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📋 转诊规范</h3>
+        <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:8px">${H.referral.materialTitle}</h4>
+        <div class="grid2">
+          ${H.referral.materials.map(m=>`
+          <div>
+            <h5 style="font-size:13px;color:var(--primary);margin-bottom:6px">${m.cat}</h5>
+            <ul style="list-style:none;padding:0">
+              ${m.items.map(i=>`<li style="font-size:12.5px;color:var(--ink-2);padding-left:16px;position:relative;margin-bottom:3px"><span style="position:absolute;left:0;color:var(--primary)">•</span>${i}</li>`).join("")}
+            </ul>
+          </div>`).join("")}
+        </div>
+        <h4 style="font-size:14px;color:var(--primary-dark);margin:16px 0 8px">${H.referral.examTitle}</h4>
+        <div class="grid2">
+          ${H.referral.exams.map(e=>`
+          <div style="background:var(--primary-light);border-radius:10px;padding:10px 14px;font-size:12.5px;margin-bottom:8px">
+            <b>${e.name}</b> <span style="color:var(--ink-2)">：${e.desc}</span>
+          </div>`).join("")}
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📚 ${H.training.title}</h3>
+        <p style="font-size:13px;color:var(--ink-2);margin-bottom:14px">${H.training.desc}</p>
+        <div style="margin:4px 0 16px">
+          ${H.training.stages.map((s,i)=>`
+          <div class="path-step" style="margin-bottom:0">
+            <div class="path-num" style="background:${["#2d7dd2","#16a085","#e67e22","#8e44ad"][i]};width:38px;height:38px;font-size:14px">${i+1}</div>
+            <div class="path-body" style="margin-bottom:10px">
+              <b>${s.name} <span style="color:var(--primary);font-size:12px">${s.time}</span></b>
+              <p style="margin-bottom:4px">${s.content}</p>
+              <div class="pchips"><span>${s.tools}</span></div>
+            </div>
+          </div>`).join("")}
+        </div>
+        <h4 style="font-size:14px;color:var(--primary-dark);margin-bottom:8px">核心技术清单（含术语）</h4>
+        <div class="kp-grid">
+          <div class="kp-box"><b>🛠️ 核心技术</b><ul>${H.training.techItems.map(t=>`<li>${t.name} — ${t.kw}</li>`).join("")}</ul></div>
+          <div class="kp-box"><b>📖 核心病种</b><ul>${H.training.diseaseItems.map(t=>`<li>${t.name} — ${t.kw}</li>`).join("")}</ul></div>
+        </div>
+      </div>`;
+  }
+
   /* ---------- 渲染入口 ---------- */
   function render(){
     if(current==="home") renderHome();
     else if(current==="path") renderPath();
+    else if(current==="hospital") renderHospital();
     else if(current==="diseases") renderDiseases();
     else if(current==="anatomy") renderAnatomy();
     else if(current==="surgery") renderSurgery();
@@ -258,6 +417,9 @@
   /* ---------- 搜索 ---------- */
   function buildIndex(){
     const idx = [];
+    idx.push({ type:"学科", cat:"医院学科", name:"上海医大医院神经外科", key:["学科","医大","神经外科","亚专科","转诊"].join(" "), page:"hospital" });
+    HOSPITAL.specialties.forEach(s=>idx.push({ type:"学科", cat:"六大亚专科", name:s.name, key:["亚专科","医院",s.name,s.desc].join(" ").toLowerCase(), page:"hospital" }));
+    HOSPITAL.coreDiseases.forEach(c=>c.items.forEach(d=>idx.push({ type:"学科", cat:"核心病种", name:d.name, key:["核心病种","医院",d.name,d.sx,d.tx].join(" ").toLowerCase(), page:"hospital" })));
     DISEASE_FLAT.forEach(d=>idx.push({ type:"病种", cat:d.catName, name:d.name, key:["病种",d.catName,d.name,d.intro].join(" ").toLowerCase(), id:"dis-"+d.id, page:"diseases" }));
     ANATOMY.forEach(a=>idx.push({ type:"解剖", cat:a.cat, name:a.name, key:["解剖",a.cat,a.name,a.desc].join(" ").toLowerCase(), page:"anatomy" }));
     SURGERY_FLAT.forEach(s=>idx.push({ type:"手术", cat:s.catName, name:s.name, key:["手术",s.catName,s.name,s.intro].join(" ").toLowerCase(), id:"sx-"+s.id, page:"surgery" }));
@@ -276,7 +438,7 @@
       $drop.innerHTML = hits.map(h=>`
         <div class="sd-item" onclick="NS.jumpSearch('${h.page}','${esc(h.id||"")}','${esc(h.name)}')">
           <b>${h.name} <span class="chip chip-cat" style="margin-left:6px">${h.type} · ${h.cat}</span></b>
-          <span>${h.page==='diseases'?'病种知识库':h.page==='surgery'?'手术方式':h.page==='anatomy'?'解剖图谱':'视频资源'}</span>
+          <span>${h.page==='hospital'?'医院学科':h.page==='diseases'?'病种知识库':h.page==='surgery'?'手术方式':h.page==='anatomy'?'解剖图谱':'视频资源'}</span>
         </div>`).join("");
     }
     $drop.classList.add("open");
