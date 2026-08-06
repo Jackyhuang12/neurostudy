@@ -158,6 +158,48 @@ a:hover{text-decoration:underline}
 .breadcrumb b{color:var(--primary-dark)}
 /* 页脚 */
 .site-foot{margin-top:40px;text-align:center;font-size:12px;color:var(--ink-3);padding-top:20px;border-top:1px solid var(--line)}
+/* ---------- 图解学习与影像 ---------- */
+.visual-hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:20px;align-items:stretch;margin-bottom:22px}
+.brain-map{background:linear-gradient(145deg,#fff,#f1f7fd);border:1px solid var(--line);border-radius:18px;padding:18px;min-height:420px}
+.brain-map svg{width:100%;height:auto;display:block}
+.brain-region{cursor:pointer;transition:opacity .18s,filter .18s,transform .18s;transform-origin:center}
+.brain-region:hover,.brain-region.active{filter:drop-shadow(0 5px 7px rgba(30,41,59,.18));opacity:1;transform:translateY(-2px)}
+.brain-label{font-size:14px;font-weight:700;pointer-events:none;fill:#243447}
+.visual-panel{background:#173f5f;color:#fff;border-radius:18px;padding:26px;display:flex;flex-direction:column}
+.visual-panel .eyebrow,.imaging-eyebrow{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;opacity:.72;font-weight:700}
+.visual-panel h2{font-size:25px;line-height:1.3;margin:10px 0 8px}
+.visual-panel p{font-size:14px;opacity:.9}
+.brain-buttons{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0}
+.brain-buttons button{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:7px 11px;border-radius:20px;cursor:pointer;font:inherit;font-size:12px}
+.brain-buttons button.active{background:#fff;color:#173f5f;font-weight:700}
+.brain-detail{margin-top:auto;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:16px}
+.brain-detail b{font-size:17px;display:block;margin-bottom:5px}
+.brain-detail small{display:block;margin-top:9px;opacity:.72;line-height:1.55}
+.plain-banner{background:#eef8f6;border:1px solid #bfe5dc;border-radius:14px;padding:16px 18px;color:#0e6655;margin-bottom:20px;font-size:14px}
+.modality-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:16px 0 24px}
+.modality-card{background:#fff;border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:13px;padding:16px;box-shadow:var(--shadow)}
+.modality-card .mi{font-size:25px}.modality-card h4{font-size:15px;margin:7px 0 3px}.modality-card .short{font-size:12.5px;font-weight:700;color:var(--accent);min-height:42px}
+.modality-card p,.modality-card li{font-size:12px;color:var(--ink-2)}
+.modality-card ul{padding-left:17px;margin:8px 0}.modality-card .limit{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+.sequence-layout{display:grid;grid-template-columns:220px 1fr;gap:16px}
+.sequence-tabs{display:flex;flex-direction:column;gap:7px}
+.sequence-tabs button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 13px;text-align:left;cursor:pointer;font:inherit;color:var(--ink-2)}
+.sequence-tabs button.active{background:var(--primary);color:#fff;border-color:var(--primary);font-weight:700}
+.sequence-screen{border-radius:14px;background:#101827;color:#e8eef7;padding:24px;min-height:260px;position:relative;overflow:hidden}
+.sequence-screen::after{content:"MR";position:absolute;right:18px;bottom:-26px;font-size:120px;font-weight:900;color:rgba(255,255,255,.035)}
+.sequence-screen h3{font-size:24px;margin:8px 0}.sequence-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}
+.sequence-fact{border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px;font-size:12px;color:#b9c5d4}.sequence-fact b{color:#fff;display:block;font-size:13px}
+.pattern-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.pattern-card{border:1px solid var(--line);background:#fff;border-radius:13px;padding:17px}.pattern-card h4{font-size:15px;margin-bottom:6px}.pattern-card p{font-size:13px;color:var(--ink-2)}
+.pattern-card .pattern-line{background:var(--primary-light);color:var(--primary-dark);padding:7px 10px;border-radius:8px;font-weight:700;margin:8px 0}
+.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.check-item{display:flex;gap:12px;border:1px solid var(--line);border-radius:11px;padding:12px;background:#fff}
+.check-num{width:30px;height:30px;flex:0 0 30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--primary);color:#fff;font-weight:700}.check-item b{font-size:13px;display:block}.check-item p{font-size:12px;color:var(--ink-2)}
+.glossary-table{width:100%;border-collapse:collapse;font-size:13px}.glossary-table td{border-bottom:1px solid var(--line);padding:10px 8px;vertical-align:top}.glossary-table td:first-child{font-weight:700;color:var(--primary-dark);width:150px}
+.source-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.source-list a{font-size:12px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:5px 11px}
+.mobile-nav{display:none}
+@media(max-width:1180px){.modality-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:860px){.visual-hero{grid-template-columns:1fr}.modality-grid{grid-template-columns:1fr 1fr}.sequence-layout{grid-template-columns:1fr}.sequence-tabs{flex-direction:row;overflow-x:auto}.sequence-tabs button{white-space:nowrap}.pattern-grid,.checklist{grid-template-columns:1fr}}
+@media(max-width:760px){body{padding-bottom:66px}.topbar{align-items:flex-start;flex-wrap:wrap}.topbar h1{width:100%}.search-wrap{max-width:none}.mobile-nav{display:flex;position:fixed;z-index:80;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:6px 5px max(6px,env(safe-area-inset-bottom));justify-content:space-around}.mobile-nav button{border:0;background:none;color:var(--ink-2);font:inherit;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:54px}.mobile-nav button span{font-size:20px}.modality-grid{grid-template-columns:1fr}.brain-map{padding:8px;min-height:0}.visual-panel{padding:20px}.sequence-facts{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -172,6 +214,7 @@ a:hover{text-decoration:underline}
       <div class="nav-group">
         <div class="nav-group-title">开始学习</div>
         <div class="nav-item active" data-page="home"><span class="ico">🏠</span>首页总览</div>
+        <div class="nav-item" data-page="visual"><span class="ico">🧠</span>一图看懂</div>
         <div class="nav-item" data-page="path"><span class="ico">🗺️</span>学习路径</div>
       </div>
       <div class="nav-group">
@@ -179,6 +222,7 @@ a:hover{text-decoration:underline}
         <div class="nav-item" data-page="hospital"><span class="ico">🏥</span>医院学科</div>
         <div class="nav-item" data-page="diseases"><span class="ico">📖</span>病种知识库</div>
         <div class="nav-item" data-page="anatomy"><span class="ico">🧩</span>解剖图谱</div>
+        <div class="nav-item" data-page="imaging"><span class="ico">🧲</span>影像学入门</div>
         <div class="nav-item" data-page="surgery"><span class="ico">🔬</span>手术方式</div>
         <div class="nav-item" data-page="videos"><span class="ico">🎬</span>视频资源</div>
       </div>
@@ -200,11 +244,21 @@ a:hover{text-decoration:underline}
   </div>
 </div>
 
+<nav class="mobile-nav" aria-label="移动端主导航">
+  <button onclick="NS.go('home')"><span>🏠</span>首页</button>
+  <button onclick="NS.go('visual')"><span>🧠</span>图解</button>
+  <button onclick="NS.go('imaging')"><span>🧲</span>影像</button>
+  <button onclick="NS.go('diseases')"><span>📖</span>病种</button>
+  <button onclick="NS.go('anatomy')"><span>🧩</span>解剖</button>
+</nav>
+
 <script src="assets/data/hospital.js"></script>
 <script src="assets/data/diseases.js"></script>
 <script src="assets/data/anatomy.js"></script>
+<script src="assets/data/imaging.js"></script>
 <script src="assets/data/surgery.js"></script>
 <script src="assets/data/videos.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>
+
