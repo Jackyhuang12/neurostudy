@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>神经外科学习网 · NeuroSurg Learning Hub</title>
-<meta name="description" content="神经外科系统学习平台：病种知识库、解剖图谱、手术方式详解、视频资源导航">
+<title>绁炵粡澶栫瀛︿範缃?路 NeuroSurg Learning Hub</title>
+<meta name="description" content="绁炵粡澶栫绯荤粺瀛︿範骞冲彴锛氱梾绉嶇煡璇嗗簱銆佽В鍓栧浘璋便€佹墜鏈柟寮忚瑙ｃ€佽棰戣祫婧愬鑸?>
 <style>
 :root{
   --primary:#2d7dd2; --primary-dark:#1a5fa8; --primary-light:#e8f1fb;
@@ -19,7 +19,7 @@ html{scroll-behavior:smooth}
 body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;font-size:15px}
 a{color:var(--primary);text-decoration:none}
 a:hover{text-decoration:underline}
-/* ---------- 布局 ---------- */
+/* ---------- 甯冨眬 ---------- */
 .layout{display:flex;min-height:100vh}
 .sidebar{width:240px;flex-shrink:0;background:#fff;border-right:1px solid var(--line);position:sticky;top:0;height:100vh;overflow-y:auto;z-index:50}
 .sidebar .logo{padding:20px 18px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
@@ -34,7 +34,7 @@ a:hover{text-decoration:underline}
 .nav-item.active{background:var(--primary);color:#fff;font-weight:600}
 .nav-item .ico{width:20px;text-align:center}
 .main{flex:1;min-width:0;padding:26px 34px 80px}
-/* ---------- 顶部条 ---------- */
+/* ---------- 椤堕儴鏉?---------- */
 .topbar{display:flex;align-items:center;gap:18px;margin-bottom:24px}
 .topbar h1{font-size:22px;color:var(--ink);flex-shrink:0}
 .search-wrap{flex:1;max-width:460px;position:relative}
@@ -49,16 +49,16 @@ a:hover{text-decoration:underline}
 .search-drop .sd-item b{font-size:14px;color:var(--ink);display:block}
 .search-drop .sd-item span{font-size:12px;color:var(--ink-3)}
 .search-drop .sd-empty{padding:16px;text-align:center;color:var(--ink-3);font-size:13px}
-/* ---------- 卡片 ---------- */
+/* ---------- 鍗＄墖 ---------- */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:20px}
 .card h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .chip{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-right:6px;vertical-align:1px}
 .chip-basic{background:var(--ok-bg);color:var(--ok)}
 .chip-adv{background:var(--danger-bg);color:var(--danger)}
 .chip-cat{background:var(--primary-light);color:var(--primary-dark)}
-/* ---------- 首页 ---------- */
+/* ---------- 棣栭〉 ---------- */
 .hero{background:linear-gradient(135deg,#17456e 0%,#2d7dd2 60%,#4d95dd 100%);border-radius:18px;padding:42px 38px;color:#fff;margin-bottom:26px;position:relative;overflow:hidden}
-.hero::after{content:"🧠";position:absolute;right:-10px;bottom:-30px;font-size:170px;opacity:.14;transform:rotate(-12deg)}
+.hero::after{content:"馃";position:absolute;right:-10px;bottom:-30px;font-size:170px;opacity:.14;transform:rotate(-12deg)}
 .hero h2{font-size:28px;margin-bottom:10px;letter-spacing:.5px}
 .hero p{font-size:15px;opacity:.92;max-width:640px}
 .hero .tags{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
@@ -74,12 +74,12 @@ a:hover{text-decoration:underline}
 .sect-card p{font-size:13px;color:var(--ink-2)}
 .sect-card .go{position:absolute;right:16px;bottom:14px;font-size:13px;color:var(--primary);font-weight:600;opacity:0;transition:.18s}
 .sect-card:hover .go{opacity:1}
-/* ---------- 分类筛选 ---------- */
+/* ---------- 鍒嗙被绛涢€?---------- */
 .filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
 .filter-btn{padding:7px 16px;border-radius:24px;border:1.5px solid var(--line);background:#fff;font-size:13px;color:var(--ink-2);cursor:pointer;transition:.15s;font-family:inherit}
 .filter-btn:hover{border-color:var(--primary);color:var(--primary-dark)}
 .filter-btn.active{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
-/* ---------- 病种卡片 ---------- */
+/* ---------- 鐥呯鍗＄墖 ---------- */
 .disease-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow)}
 .dc-head{padding:16px 20px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
 .dc-head:hover{background:var(--primary-light)}
@@ -94,9 +94,9 @@ a:hover{text-decoration:underline}
 .sub-block h4::before{content:"";width:4px;height:14px;background:var(--primary);border-radius:2px}
 .sub-block ul{padding-left:4px;list-style:none}
 .sub-block ul li{position:relative;padding-left:18px;font-size:13.5px;color:var(--ink-2);margin-bottom:4px}
-.sub-block ul li::before{content:"•";position:absolute;left:4px;color:var(--primary);font-weight:bold}
+.sub-block ul li::before{content:"鈥?;position:absolute;left:4px;color:var(--primary);font-weight:bold}
 .warn-box{background:var(--warn-bg);border-left:4px solid var(--warn);padding:10px 14px;border-radius:8px;font-size:13px;color:var(--warn);margin-top:12px}
-/* ---------- 解剖 ---------- */
+/* ---------- 瑙ｅ墫 ---------- */
 .anat-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:24px;box-shadow:var(--shadow);overflow:hidden}
 .anat-head{padding:16px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);background:linear-gradient(90deg,var(--primary-light),#fff)}
 .anat-head b{font-size:16px}
@@ -106,8 +106,8 @@ a:hover{text-decoration:underline}
 .anat-points{padding:10px 20px 18px}
 .anat-points ul{list-style:none}
 .anat-points li{font-size:13px;color:var(--ink-2);padding-left:18px;position:relative;margin-bottom:5px}
-.anat-points li::before{content:"✦";position:absolute;left:0;color:var(--primary);font-size:11px;top:2px}
-/* ---------- 手术 ---------- */
+.anat-points li::before{content:"鉁?;position:absolute;left:0;color:var(--primary);font-size:11px;top:2px}
+/* ---------- 鎵嬫湳 ---------- */
 .sx-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow)}
 .sx-card.open .sx-body{display:block}
 .sx-head{padding:16px 20px;display:flex;align-items:center;gap:10px;cursor:pointer}
@@ -123,9 +123,9 @@ a:hover{text-decoration:underline}
 .kp-box b{display:block;margin-bottom:4px;font-size:13px}
 .kp-box ul{list-style:none;padding:0}
 .kp-box li{padding-left:16px;position:relative;margin-bottom:3px}
-.kp-box li::before{content:"→";position:absolute;left:0;color:var(--primary)}
+.kp-box li::before{content:"鈫?;position:absolute;left:0;color:var(--primary)}
 .adv-box{background:var(--ok-bg);border-left:4px solid var(--ok);padding:12px 16px;border-radius:8px;font-size:13.5px;color:var(--ok);margin-top:14px}
-/* ---------- 视频 ---------- */
+/* ---------- 瑙嗛 ---------- */
 .vid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:1000px){.vid-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.vid-grid{grid-template-columns:1fr}}
@@ -136,7 +136,7 @@ a:hover{text-decoration:underline}
 .vid-card .tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
 .vid-card .tags span{font-size:10.5px;background:var(--primary-light);color:var(--primary-dark);padding:1px 8px;border-radius:12px}
 .vid-card a{font-size:12.5px;font-weight:600}
-/* ---------- 学习路径 ---------- */
+/* ---------- 瀛︿範璺緞 ---------- */
 .path-step{display:flex;gap:18px;margin-bottom:6px;position:relative}
 .path-step::before{content:"";position:absolute;left:21px;top:44px;bottom:-10px;width:2px;background:var(--line)}
 .path-step:last-child::before{display:none}
@@ -146,65 +146,119 @@ a:hover{text-decoration:underline}
 .path-body p{font-size:13px;color:var(--ink-2);margin-bottom:8px}
 .path-body .pchips{display:flex;gap:6px;flex-wrap:wrap}
 .path-body .pchips span{font-size:11px;background:var(--primary-light);color:var(--primary-dark);padding:2px 10px;border-radius:12px}
-/* ---------- 页脚声明 ---------- */
+/* ---------- 椤佃剼澹版槑 ---------- */
 .foot-note{margin-top:34px;padding:16px 20px;border-radius:12px;background:#fff8e6;border:1px solid #f0d48a;font-size:12.5px;color:#8a6d1a;line-height:1.8}
-/* 分类色条 */
+/* 鍒嗙被鑹叉潯 */
 .cat-strip{height:5px;border-radius:3px;margin:0 20px 2px}
-/* 空态 */
+/* 绌烘€?*/
 .empty{padding:60px 20px;text-align:center;color:var(--ink-3)}
 .empty .e-ico{font-size:44px;margin-bottom:10px}
-/* 面包屑 */
+/* 闈㈠寘灞?*/
 .breadcrumb{font-size:13px;color:var(--ink-3);margin-bottom:14px}
 .breadcrumb b{color:var(--primary-dark)}
-/* 页脚 */
+/* 椤佃剼 */
 .site-foot{margin-top:40px;text-align:center;font-size:12px;color:var(--ink-3);padding-top:20px;border-top:1px solid var(--line)}
+/* ---------- 鍥捐В瀛︿範涓庡奖鍍?---------- */
+.visual-hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:20px;align-items:stretch;margin-bottom:22px}
+.brain-map{background:linear-gradient(145deg,#fff,#f1f7fd);border:1px solid var(--line);border-radius:18px;padding:18px;min-height:420px}
+.brain-map svg{width:100%;height:auto;display:block}
+.brain-region{cursor:pointer;transition:opacity .18s,filter .18s,transform .18s;transform-origin:center}
+.brain-region:hover,.brain-region.active{filter:drop-shadow(0 5px 7px rgba(30,41,59,.18));opacity:1;transform:translateY(-2px)}
+.brain-label{font-size:14px;font-weight:700;pointer-events:none;fill:#243447}
+.visual-panel{background:#173f5f;color:#fff;border-radius:18px;padding:26px;display:flex;flex-direction:column}
+.visual-panel .eyebrow,.imaging-eyebrow{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;opacity:.72;font-weight:700}
+.visual-panel h2{font-size:25px;line-height:1.3;margin:10px 0 8px}
+.visual-panel p{font-size:14px;opacity:.9}
+.brain-buttons{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0}
+.brain-buttons button{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:7px 11px;border-radius:20px;cursor:pointer;font:inherit;font-size:12px}
+.brain-buttons button.active{background:#fff;color:#173f5f;font-weight:700}
+.brain-detail{margin-top:auto;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:16px}
+.brain-detail b{font-size:17px;display:block;margin-bottom:5px}
+.brain-detail small{display:block;margin-top:9px;opacity:.72;line-height:1.55}
+.plain-banner{background:#eef8f6;border:1px solid #bfe5dc;border-radius:14px;padding:16px 18px;color:#0e6655;margin-bottom:20px;font-size:14px}
+.modality-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:16px 0 24px}
+.modality-card{background:#fff;border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:13px;padding:16px;box-shadow:var(--shadow)}
+.modality-card .mi{font-size:25px}.modality-card h4{font-size:15px;margin:7px 0 3px}.modality-card .short{font-size:12.5px;font-weight:700;color:var(--accent);min-height:42px}
+.modality-card p,.modality-card li{font-size:12px;color:var(--ink-2)}
+.modality-card ul{padding-left:17px;margin:8px 0}.modality-card .limit{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+.sequence-layout{display:grid;grid-template-columns:220px 1fr;gap:16px}
+.sequence-tabs{display:flex;flex-direction:column;gap:7px}
+.sequence-tabs button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 13px;text-align:left;cursor:pointer;font:inherit;color:var(--ink-2)}
+.sequence-tabs button.active{background:var(--primary);color:#fff;border-color:var(--primary);font-weight:700}
+.sequence-screen{border-radius:14px;background:#101827;color:#e8eef7;padding:24px;min-height:260px;position:relative;overflow:hidden}
+.sequence-screen::after{content:"MR";position:absolute;right:18px;bottom:-26px;font-size:120px;font-weight:900;color:rgba(255,255,255,.035)}
+.sequence-screen h3{font-size:24px;margin:8px 0}.sequence-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}
+.sequence-fact{border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px;font-size:12px;color:#b9c5d4}.sequence-fact b{color:#fff;display:block;font-size:13px}
+.pattern-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.pattern-card{border:1px solid var(--line);background:#fff;border-radius:13px;padding:17px}.pattern-card h4{font-size:15px;margin-bottom:6px}.pattern-card p{font-size:13px;color:var(--ink-2)}
+.pattern-card .pattern-line{background:var(--primary-light);color:var(--primary-dark);padding:7px 10px;border-radius:8px;font-weight:700;margin:8px 0}
+.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.check-item{display:flex;gap:12px;border:1px solid var(--line);border-radius:11px;padding:12px;background:#fff}
+.check-num{width:30px;height:30px;flex:0 0 30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--primary);color:#fff;font-weight:700}.check-item b{font-size:13px;display:block}.check-item p{font-size:12px;color:var(--ink-2)}
+.glossary-table{width:100%;border-collapse:collapse;font-size:13px}.glossary-table td{border-bottom:1px solid var(--line);padding:10px 8px;vertical-align:top}.glossary-table td:first-child{font-weight:700;color:var(--primary-dark);width:150px}
+.source-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.source-list a{font-size:12px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:5px 11px}
+.mobile-nav{display:none}
+@media(max-width:1180px){.modality-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:860px){.visual-hero{grid-template-columns:1fr}.modality-grid{grid-template-columns:1fr 1fr}.sequence-layout{grid-template-columns:1fr}.sequence-tabs{flex-direction:row;overflow-x:auto}.sequence-tabs button{white-space:nowrap}.pattern-grid,.checklist{grid-template-columns:1fr}}
+@media(max-width:760px){body{padding-bottom:66px}.topbar{align-items:flex-start;flex-wrap:wrap}.topbar h1{width:100%}.search-wrap{max-width:none}.mobile-nav{display:flex;position:fixed;z-index:80;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:6px 5px max(6px,env(safe-area-inset-bottom));justify-content:space-around}.mobile-nav button{border:0;background:none;color:var(--ink-2);font:inherit;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:54px}.mobile-nav button span{font-size:20px}.modality-grid{grid-template-columns:1fr}.brain-map{padding:8px;min-height:0}.visual-panel{padding:20px}.sequence-facts{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="layout">
-  <!-- 侧边栏 -->
+  <!-- 渚ц竟鏍?-->
   <aside class="sidebar">
     <div class="logo">
-      <div class="logo-badge">神</div>
-      <div class="logo-text"><b>神经外科学习网</b><span>NeuroSurg Learning Hub</span></div>
+      <div class="logo-badge">绁?/div>
+      <div class="logo-text"><b>绁炵粡澶栫瀛︿範缃?/b><span>NeuroSurg Learning Hub</span></div>
     </div>
     <nav class="nav">
       <div class="nav-group">
-        <div class="nav-group-title">开始学习</div>
-        <div class="nav-item active" data-page="home"><span class="ico">🏠</span>首页总览</div>
-        <div class="nav-item" data-page="path"><span class="ico">🗺️</span>学习路径</div>
+        <div class="nav-group-title">寮€濮嬪涔?/div>
+        <div class="nav-item active" data-page="home"><span class="ico">馃彔</span>棣栭〉鎬昏</div>
+        <div class="nav-item" data-page="visual"><span class="ico">馃</span>涓€鍥剧湅鎳?/div>
+        <div class="nav-item" data-page="path"><span class="ico">馃椇锔?/span>瀛︿範璺緞</div>
       </div>
       <div class="nav-group">
-        <div class="nav-group-title">知识体系</div>
-        <div class="nav-item" data-page="hospital"><span class="ico">🏥</span>医院学科</div>
-        <div class="nav-item" data-page="diseases"><span class="ico">📖</span>病种知识库</div>
-        <div class="nav-item" data-page="anatomy"><span class="ico">🧩</span>解剖图谱</div>
-        <div class="nav-item" data-page="surgery"><span class="ico">🔬</span>手术方式</div>
-        <div class="nav-item" data-page="videos"><span class="ico">🎬</span>视频资源</div>
+        <div class="nav-group-title">鐭ヨ瘑浣撶郴</div>
+        <div class="nav-item" data-page="hospital"><span class="ico">馃彞</span>鍖婚櫌瀛︾</div>
+        <div class="nav-item" data-page="diseases"><span class="ico">馃摉</span>鐥呯鐭ヨ瘑搴?/div>
+        <div class="nav-item" data-page="anatomy"><span class="ico">馃З</span>瑙ｅ墫鍥捐氨</div>
+        <div class="nav-item" data-page="imaging"><span class="ico">馃Р</span>褰卞儚瀛﹀叆闂?/div>
+        <div class="nav-item" data-page="surgery"><span class="ico">馃敩</span>鎵嬫湳鏂瑰紡</div>
+        <div class="nav-item" data-page="videos"><span class="ico">馃幀</span>瑙嗛璧勬簮</div>
       </div>
     </nav>
   </aside>
 
-  <!-- 主内容 -->
+  <!-- 涓诲唴瀹?-->
   <div class="main">
     <div class="topbar">
-      <h1 id="page-title">神经外科学习网</h1>
+      <h1 id="page-title">绁炵粡澶栫瀛︿範缃?/h1>
       <div class="search-wrap">
-        <span class="s-ico">🔍</span>
-        <input id="search-input" type="text" placeholder="搜索病种 / 手术 / 解剖 / 资源…" autocomplete="off">
+        <span class="s-ico">馃攳</span>
+        <input id="search-input" type="text" placeholder="鎼滅储鐥呯 / 鎵嬫湳 / 瑙ｅ墫 / 璧勬簮鈥? autocomplete="off">
         <div class="search-drop" id="search-drop"></div>
       </div>
     </div>
     <div id="app"></div>
-    <div class="site-foot">神经外科学习网 · 内容参考《王忠诚神经外科学》、Greenberg《神经外科手册》等公开教材整理 · 仅供医学学习交流，不构成诊疗建议</div>
+    <div class="site-foot">绁炵粡澶栫瀛︿範缃?路 鍐呭鍙傝€冦€婄帇蹇犺瘹绁炵粡澶栫瀛︺€嬨€丟reenberg銆婄缁忓绉戞墜鍐屻€嬬瓑鍏紑鏁欐潗鏁寸悊 路 浠呬緵鍖诲瀛︿範浜ゆ祦锛屼笉鏋勬垚璇婄枟寤鸿</div>
   </div>
 </div>
+
+<nav class="mobile-nav" aria-label="绉诲姩绔富瀵艰埅">
+  <button onclick="NS.go('home')"><span>馃彔</span>棣栭〉</button>
+  <button onclick="NS.go('visual')"><span>馃</span>鍥捐В</button>
+  <button onclick="NS.go('imaging')"><span>馃Р</span>褰卞儚</button>
+  <button onclick="NS.go('diseases')"><span>馃摉</span>鐥呯</button>
+  <button onclick="NS.go('anatomy')"><span>馃З</span>瑙ｅ墫</button>
+</nav>
 
 <script src="assets/data/hospital.js"></script>
 <script src="assets/data/diseases.js"></script>
 <script src="assets/data/anatomy.js"></script>
+<script src="assets/data/imaging.js"></script>
 <script src="assets/data/surgery.js"></script>
 <script src="assets/data/videos.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>
+
