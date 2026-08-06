@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:,">
 <title>神经外科学习网 · NeuroSurg Learning Hub</title>
 <meta name="description" content="神经外科系统学习平台：病种知识库、解剖图谱、手术方式详解、视频资源导航">
 <style>
@@ -200,6 +201,55 @@ a:hover{text-decoration:underline}
 @media(max-width:1180px){.modality-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:860px){.visual-hero{grid-template-columns:1fr}.modality-grid{grid-template-columns:1fr 1fr}.sequence-layout{grid-template-columns:1fr}.sequence-tabs{flex-direction:row;overflow-x:auto}.sequence-tabs button{white-space:nowrap}.pattern-grid,.checklist{grid-template-columns:1fr}}
 @media(max-width:760px){body{padding-bottom:66px}.topbar{align-items:flex-start;flex-wrap:wrap}.topbar h1{width:100%}.search-wrap{max-width:none}.mobile-nav{display:flex;position:fixed;z-index:80;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:6px 5px max(6px,env(safe-area-inset-bottom));justify-content:space-around}.mobile-nav button{border:0;background:none;color:var(--ink-2);font:inherit;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:54px}.mobile-nav button span{font-size:20px}.modality-grid{grid-template-columns:1fr}.brain-map{padding:8px;min-height:0}.visual-panel{padding:20px}.sequence-facts{grid-template-columns:1fr}}
+/* ---------- 第二版：更清晰的视觉层级 ---------- */
+.sidebar{background:#0d263b;border-right:0;color:#dbe8f2}
+.sidebar .logo{border-bottom-color:rgba(255,255,255,.1)}
+.logo-badge{background:linear-gradient(135deg,#ff9f43,#ef6c35);box-shadow:0 8px 22px rgba(239,108,53,.25)}
+.logo-text b{color:#fff}.logo-text span{color:#8fa9bd}
+.nav-group-title{color:#6f8ca3}
+.nav-item{color:#b7cbd9}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff;text-decoration:none}
+.nav-item.active{background:#fff;color:#12344d;box-shadow:0 8px 20px rgba(0,0,0,.16)}
+.main{background:radial-gradient(circle at 90% 0,#e6f4ff 0,transparent 28%),var(--bg)}
+.home-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:18px;margin-bottom:28px}
+.home-hero-main{min-height:390px;border-radius:24px;padding:44px;background:#102f49;color:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.home-hero-main::after{content:"";position:absolute;width:310px;height:310px;border:70px solid rgba(77,184,177,.16);border-radius:50%;right:-105px;top:-90px}
+.home-kicker,.section-kicker{font-size:11px;letter-spacing:1.8px;font-weight:800;color:#46c2b5;text-transform:uppercase}
+.home-hero-main h2{font-size:38px;line-height:1.2;margin:13px 0 14px;max-width:680px;position:relative;z-index:1}
+.home-hero-main p{font-size:15px;color:#c5d7e4;max-width:630px;position:relative;z-index:1}
+.home-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;position:relative;z-index:1}
+.home-actions button{border:0;border-radius:10px;padding:11px 18px;font:inherit;font-weight:700;cursor:pointer}
+.home-actions .primary-action{background:#ff914d;color:#1d2b35}.home-actions .secondary-action{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff}
+.quick-route{border-radius:24px;background:#fff;border:1px solid var(--line);padding:25px;box-shadow:var(--shadow)}
+.quick-route h3{font-size:18px;margin:8px 0 4px}.quick-route>p{font-size:12px;color:var(--ink-3);margin-bottom:18px}
+.route-step{display:flex;gap:11px;padding:11px 0;border-bottom:1px dashed var(--line);cursor:pointer}.route-step:last-child{border:0}
+.route-step .route-num{width:27px;height:27px;border-radius:8px;background:#e6f7f4;color:#0d7368;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:0 0 27px}
+.route-step b{display:block;font-size:13px}.route-step span{font-size:11.5px;color:var(--ink-3)}
+.home-section{margin:30px 0}.home-section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:14px}.home-section-head h3{font-size:22px}.home-section-head p{font-size:12px;color:var(--ink-3)}
+.symptom-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.symptom-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px;cursor:pointer;transition:.18s;min-height:156px;position:relative;overflow:hidden}
+.symptom-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 15px 32px -20px var(--accent)}
+.symptom-card .sym-icon{font-size:28px}.symptom-card b{display:block;font-size:15px;margin:9px 0 5px}.symptom-card p{font-size:12.5px;color:var(--ink-2)}.symptom-card small{display:block;margin-top:8px;color:var(--accent);font-weight:700}
+.track-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.learn-track{border-radius:18px;padding:23px;min-height:220px;color:#fff;cursor:pointer;position:relative;overflow:hidden}.learn-track::after{content:attr(data-mark);position:absolute;right:-8px;bottom:-42px;font-size:125px;opacity:.1}
+.learn-track h4{font-size:19px;margin:10px 0 8px}.learn-track p{font-size:13px;opacity:.82;max-width:280px}.learn-track span{display:inline-block;margin-top:20px;font-size:12px;font-weight:700;background:rgba(255,255,255,.15);padding:6px 11px;border-radius:20px}
+.disease-orient{background:#102f49;color:#fff;border-radius:18px;padding:24px;margin-bottom:18px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}.disease-orient h2{font-size:23px;margin-bottom:5px}.disease-orient p{font-size:13px;color:#c5d7e4;max-width:720px}.disease-orient button{border:0;background:#ff914d;color:#162b39;border-radius:10px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}
+.disease-card{border:0;border-left:4px solid #b9d7ef;box-shadow:0 8px 24px -18px rgba(20,52,77,.5)}
+.dc-head{padding:18px 20px}.dc-body{background:#fbfdff}.intro-box{background:#eef6fc;border-left:0;border-radius:10px;font-size:14px}
+.dc-learning-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}.dc-learning-grid .sub-block{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px;margin:0}.dc-learning-grid .sub-block h4{font-size:12px}.dc-learning-grid .sub-block ul li{font-size:12.5px}
+@media(max-width:1050px){.home-hero{grid-template-columns:1fr}.symptom-grid{grid-template-columns:1fr 1fr}.track-grid{grid-template-columns:1fr}.quick-route{display:grid;grid-template-columns:repeat(2,1fr);gap:0 18px}.quick-route h3,.quick-route>p{grid-column:1/-1}}
+@media(max-width:760px){.main{background:var(--bg)}.home-hero-main{padding:28px 22px;min-height:350px}.home-hero-main h2{font-size:30px}.symptom-grid{grid-template-columns:1fr}.quick-route{display:block}.disease-orient{grid-template-columns:1fr}.dc-learning-grid{grid-template-columns:1fr}.home-section-head{display:block}.home-section-head p{margin-top:4px}}
+/* ---------- 交互阅片室与病例推理 ---------- */
+.viewer-lab,.reasoning-lab,.planning-lab{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;margin-bottom:24px;box-shadow:var(--shadow)}
+.viewer-lab{background:#0b1728;color:#e8f0f7;border-color:#203650}.viewer-head{display:flex;justify-content:space-between;gap:20px;align-items:start}.viewer-head h2,.reasoning-lab h2,.planning-lab h2,.anatomy-mission h2{font-size:25px;margin:5px 0 6px}.viewer-head p{color:#aabbd0;font-size:13px;max-width:760px}.live-badge{font-size:11px;color:#78dfc7;background:#123a3c;border:1px solid #24625f;border-radius:20px;padding:6px 10px;white-space:nowrap}
+.case-tabs,.mini-case-tabs{display:flex;gap:9px;overflow-x:auto;margin:20px 0 14px;padding-bottom:3px}.case-tabs button,.mini-case-tabs button{font:inherit;border:1px solid #314963;background:#13243a;color:#c7d4e2;border-radius:11px;padding:10px 14px;cursor:pointer;white-space:nowrap;text-align:left}.case-tabs button small{display:block;color:#7e96ad;font-size:10px}.case-tabs button.active{background:#ff914d;color:#142536;border-color:#ff914d;font-weight:800}.case-tabs button.active small{color:#67300d}
+.viewer-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.7fr);gap:16px}.viewer-stage{min-width:0}.viewer-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#101f32;padding:9px;border-radius:11px 11px 0 0}.plane-buttons{display:flex;gap:5px;flex-wrap:wrap}.plane-buttons button{font:inherit;font-size:11px;border:1px solid #3b536c;background:#152a41;color:#cbd9e7;border-radius:7px;padding:6px 9px;cursor:pointer}.plane-buttons button.active{background:#2d7dd2;border-color:#2d7dd2;color:#fff}.overlay-toggle{font-size:11px;color:#ffba83;white-space:nowrap}.canvas-wrap{height:570px;position:relative;background:#050b13;border:1px solid #203650}.canvas-wrap canvas{display:block;width:100%;height:100%;touch-action:none}.viewer-help{position:absolute;left:12px;bottom:10px;background:rgba(4,10,18,.76);color:#a9bdd0;border-radius:6px;padding:5px 8px;font-size:10px;pointer-events:none}.viewer-status{background:#101f32;border-radius:0 0 11px 11px;padding:8px 11px;color:#91a8bc;font-size:11px}.viewer-status[data-kind="error"]{color:#ff9f8e}
+.case-coach{background:#f7fafc;color:#1c2e3f;border-radius:13px;padding:19px;align-self:start}.case-tag{color:#c2561c;font-size:10px;font-weight:800;letter-spacing:1.4px}.case-coach h3{font-size:18px;margin:7px 0 12px}.coach-question,.coach-answer{background:#fff;border:1px solid #dce6ee;border-left:4px solid #ff914d;border-radius:9px;padding:12px}.coach-question b,.coach-answer b{font-size:12px}.coach-question p,.coach-answer p{font-size:12.5px;color:#42576a;margin-top:4px}.case-coach ol{padding-left:20px;margin:14px 0}.case-coach li{font-size:12px;color:#536779;margin:7px 0}.reveal-btn{width:100%;font:inherit;font-size:12px;font-weight:800;border:0;border-radius:9px;padding:10px;background:#173f5f;color:#fff;cursor:pointer}.coach-answer{margin-top:10px;border-left-color:#31a88d}.data-source{display:block;color:#7a8c9c;margin-top:13px;line-height:1.45}
+.reasoning-lab{background:linear-gradient(135deg,#f8fbfd,#edf7f5)}.lab-intro{font-size:13px;color:var(--ink-2)}.mini-case-tabs button{background:#fff;color:var(--ink-2);border-color:var(--line)}.mini-case-tabs button.active{background:#123f5d;color:#fff;border-color:#123f5d}.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.timeline-step{font:inherit;text-align:left;border:1px dashed #b7c9d7;border-radius:11px;padding:12px;background:rgba(255,255,255,.55);min-height:120px;color:#8091a0;cursor:pointer}.timeline-step.shown{background:#fff;border-style:solid;color:var(--ink);box-shadow:0 7px 18px -15px #123f5d}.timeline-step>span{display:flex;width:25px;height:25px;align-items:center;justify-content:center;background:#dce9ef;border-radius:7px;font-size:11px;font-weight:800;margin-bottom:8px}.timeline-step.shown>span{background:#ff914d;color:#3b210e}.timeline-step b{font-size:12px}.timeline-step p{font-size:11.5px;color:var(--ink-2);margin-top:5px}.case-trap{margin-top:11px;border-radius:9px;background:#fff2e9;color:#a64f20;padding:10px 12px;font-size:12px}
+.anatomy-mission{background:#102f49;color:#fff;border-radius:19px;padding:25px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;gap:20px}.anatomy-mission p{color:#bfd0dc;font-size:13px;max-width:760px}.anatomy-mission button{border:0;border-radius:9px;background:#ff914d;color:#172b38;font:inherit;font-size:12px;font-weight:800;padding:11px 14px;white-space:nowrap;cursor:pointer}
+.planning-lab{background:#102f49;color:#fff}.planning-lab>p{color:#c1d1dc}.planning-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}.planning-grid>div{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);border-radius:11px;padding:14px}.planning-grid b{font-size:13px;color:#ffad75}.planning-grid p{font-size:11.5px;color:#bed0dc;margin-top:5px}
+@media(max-width:1050px){.viewer-grid{grid-template-columns:1fr}.case-coach{width:100%}.timeline,.planning-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.viewer-lab,.reasoning-lab,.planning-lab{padding:16px;border-radius:15px}.viewer-head{display:block}.live-badge{display:inline-block;margin-top:10px}.canvas-wrap{height:430px}.viewer-toolbar{align-items:flex-start;flex-direction:column}.timeline,.planning-grid{grid-template-columns:1fr}.anatomy-mission{display:block}.anatomy-mission button{margin-top:14px}.viewer-help{display:none}}
 </style>
 </head>
 <body>
@@ -256,9 +306,10 @@ a:hover{text-decoration:underline}
 <script src="assets/data/diseases.js"></script>
 <script src="assets/data/anatomy.js"></script>
 <script src="assets/data/imaging.js"></script>
+<script src="assets/data/cases.js"></script>
 <script src="assets/data/surgery.js"></script>
 <script src="assets/data/videos.js"></script>
 <script src="assets/js/app.js"></script>
+<script type="module" src="assets/js/viewer.js"></script>
 </body>
 </html>
-

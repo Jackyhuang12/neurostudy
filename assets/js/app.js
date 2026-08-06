@@ -27,6 +27,10 @@
   let sxFilter = "all";
   let brainRegion = "frontal";
   let sequenceId = "t1";
+  let imagingCaseId = "normal-t1";
+  let imagingRevealed = false;
+  let clinicCaseId = "stroke";
+  let clinicStage = 1;
 
   /* ---------- 工具 ---------- */
   const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -129,6 +133,7 @@
   /* ---------- 影像学入门 ---------- */
   function renderImaging(){
     const s = IMAGING.sequences.find(x=>x.id===sequenceId) || IMAGING.sequences[0];
+    const c = LEARNING_CASES.imaging.find(x=>x.id===imagingCaseId) || LEARNING_CASES.imaging[0];
     $app.innerHTML = `
       <div class="hero" style="background:linear-gradient(135deg,#10263d,#205d83 62%,#2d7dd2)">
         <div class="imaging-eyebrow">NEUROIMAGING, IN PLAIN LANGUAGE</div>
@@ -136,6 +141,25 @@
         <p>CT 擅长快速排急症，MRI 用多个序列描述组织，MRA/CTA/DSA 聚焦血管。读片的核心不是背“亮暗”，而是定位、跨序列验证，再回到临床问题。</p>
         <div class="tags"><span>CT / CTA</span><span>MRI 六大序列</span><span>MRA / DSA</span><span>七步读片法</span></div>
       </div>
+      <section class="viewer-lab">
+        <div class="viewer-head"><div><div class="section-kicker">INTERACTIVE READING ROOM</div><h2>真实体数据阅片室</h2><p>这里不是图片轮播。把鼠标放在影像上滚动切片，拖动十字线定位，切换三个正交方向；先自己找，再打开标注核对。</p></div><span class="live-badge">● 可交互 NIfTI</span></div>
+        <div class="case-tabs">${LEARNING_CASES.imaging.map(x=>`<button class="${x.id===imagingCaseId?'active':''}" onclick="NS.selectImagingCase('${x.id}')"><small>${x.badge}</small>${x.label}</button>`).join("")}</div>
+        <div class="viewer-grid">
+          <div class="viewer-stage">
+            <div class="viewer-toolbar">
+              <div class="plane-buttons"><button data-plane="axial" onclick="MedicalViewer.setPlane('axial')">轴位</button><button data-plane="coronal" onclick="MedicalViewer.setPlane('coronal')">冠状位</button><button data-plane="sagittal" onclick="MedicalViewer.setPlane('sagittal')">矢状位</button><button data-plane="multiplanar" class="active" onclick="MedicalViewer.setPlane('multiplanar')">三平面</button></div>
+              ${c.volumes.length>1?'<label class="overlay-toggle"><input type="checkbox" onchange="MedicalViewer.toggleOverlay(this.checked)"> 显示病灶标注</label>':''}
+            </div>
+            <div class="canvas-wrap"><canvas id="niivue-canvas" aria-label="可滚动的三维医学影像阅片器"></canvas><div class="viewer-help">滚轮：逐层切片　拖动：移动十字线　右键拖动：调窗</div></div>
+            <div id="viewer-status" class="viewer-status">正在准备阅片器…</div>
+          </div>
+          <aside class="case-coach"><div class="case-tag">病例任务</div><h3>${c.title}</h3><div class="coach-question"><b>先观察</b><p>${c.question}</p></div><ol>${c.notes.map(n=>`<li>${n}</li>`).join("")}</ol>
+            <button class="reveal-btn" onclick="NS.toggleImagingAnswer()">${imagingRevealed?'收起答案':'完成观察，揭晓要点'}</button>
+            ${imagingRevealed?`<div class="coach-answer"><b>核对思路</b><p>${c.answer}</p></div>`:''}
+            <small class="data-source">数据说明：${c.source}</small>
+          </aside>
+        </div>
+      </section>
       <div class="card"><h3>① 五种检查，分别擅长什么？</h3><div class="modality-grid">${IMAGING.modalities.map(m=>`
         <div class="modality-card" style="--accent:${m.color}"><div class="mi">${m.icon}</div><h4>${m.name}</h4><div class="short">${m.short}</div><p>${m.plain}</p>
         <ul>${m.best.map(x=>`<li>${x}</li>`).join("")}</ul><p class="limit"><b>边界：</b>${m.limits}</p></div>`).join("")}</div></div>
@@ -150,6 +174,19 @@
       <div class="card"><h3>⑥ 看完报告，正确的下一步</h3><p style="font-size:13px;color:var(--ink-2)">先看“印象/结论”，再回到“所见”找证据；把报告与症状、既往片和医生判断放在一起。不要只截取“异常信号”“强化”或“动脉瘤可能”等单词自行判断严重程度。</p>
         <div class="warn-box" style="margin-top:14px">本站不提供个体影像诊断。急性神经症状按急诊处理；非急症请携带完整 DICOM、正式报告和既往检查咨询放射科/神经科/神经外科专业人员。</div>
         <div class="source-list">${IMAGING.references.map(r=>`<a href="${r.url}" target="_blank" rel="noopener">${r.name} ↗</a>`).join("")}</div></div></div>`;
+    if(window.MedicalViewer) setTimeout(()=>window.MedicalViewer.init(imagingCaseId),0);
+  }
+
+  function caseLabHTML(title){
+    const c = LEARNING_CASES.clinic.find(x=>x.id===clinicCaseId) || LEARNING_CASES.clinic[0];
+    const stages = [
+      ["① 症状与时间轴", `${c.title} · 起病速度：${c.tempo}`],
+      ["② 第一反应", c.first], ["③ 影像策略", c.image], ["④ 决策核心", c.decision]
+    ];
+    return `<section class="reasoning-lab"><div class="section-kicker">CASE-BASED LEARNING</div><h2>${title}</h2><p class="lab-intro">先看有限信息作出下一步选择，再逐层揭示检查与决策依据。病例用于训练思路，不用于个人诊断。</p>
+      <div class="mini-case-tabs">${LEARNING_CASES.clinic.map(x=>`<button class="${x.id===clinicCaseId?'active':''}" onclick="NS.selectClinicCase('${x.id}')">${x.icon} ${x.title}</button>`).join("")}</div>
+      <div class="timeline">${stages.map((x,i)=>`<button class="timeline-step ${i<clinicStage?'shown':''}" onclick="NS.setClinicStage(${i+1})"><span>${i+1}</span><div><b>${x[0]}</b><p>${i<clinicStage?x[1]:'点击后揭示'}</p></div></button>`).join("")}</div>
+      ${clinicStage>=4?`<div class="case-trap"><b>容易踩的坑：</b>${c.trap}</div>`:''}</section>`;
   }
 
   /* ---------- 病种知识库 ---------- */
@@ -182,7 +219,7 @@
         ${cats.map(c=>`<button class="filter-btn ${diseaseFilter===c.cat?'active':''}" onclick="NS.setDFilter('${c.cat}')">${c.icon} ${c.catName}（${c.items.length}）</button>`).join("")}
       </div>`;
     if(diseaseFilter === "all"){
-      $app.innerHTML = filterBar + cats.map(c=>`
+      $app.innerHTML = caseLabHTML("从症状走到影像与决策") + filterBar + cats.map(c=>`
         <div class="card" style="padding:0;overflow:hidden">
           <div style="padding:18px 20px 8px;display:flex;align-items:center;gap:10px">
             <span style="font-size:26px">${c.icon}</span>
@@ -213,6 +250,7 @@
   /* ---------- 解剖图谱 ---------- */
   function renderAnatomy(){
     $app.innerHTML = `
+      <div class="anatomy-mission"><div><div class="section-kicker">LOCATION → FUNCTION → DEFICIT</div><h2>解剖不是认名字，而是解释症状</h2><p>每看一个结构都回答：它在哪里？与谁相邻？损伤后会发生什么？手术或穿刺时为什么要避开它？</p></div><button onclick="NS.go('imaging')">进入三维断层定位 →</button></div>
       <div class="card">
         <h3>🧩 解剖图谱说明</h3>
         <p style="font-size:13.5px;color:var(--ink-2)">以下为教学简化示意图，突出神经外科常用解剖标志与临床相关结构。建议配合 <b>The Neurosurgical Atlas</b>、Neuroanatomy Online 等 3D/实物资源对照学习（见“视频资源”页）。</p>
@@ -262,7 +300,7 @@
         ${cats.map(c=>`<button class="filter-btn ${sxFilter===c.cat?'active':''}" onclick="NS.setSxFilter('${c.cat}')">${c.icon} ${c.catName}（${c.items.length}）</button>`).join("")}
       </div>`;
     if(sxFilter === "all"){
-      $app.innerHTML = filterBar + cats.map(c=>`
+      $app.innerHTML = `<section class="planning-lab"><div class="section-kicker">PREOPERATIVE THINKING</div><h2>手术从读片和风险地图开始</h2><div class="planning-grid"><div><b>1 · 定位目标</b><p>病变在脑内还是脑外？与功能区、血管、脑室和颅底的关系是什么？</p></div><div><b>2 · 设计走廊</b><p>不是“离得最近”就最好，而是比较牵拉、静脉、穿支和神经损伤代价。</p></div><div><b>3 · 设定边界</b><p>最大安全切除、取样或减压的目标不同；先定义何时应该停手。</p></div><div><b>4 · 预演风险</b><p>把出血、缺血、功能缺损、脑脊液漏等风险与应对方案写进术前计划。</p></div></div></section>` + filterBar + cats.map(c=>`
         <div class="card" style="padding:0;overflow:hidden">
           <div style="padding:18px 20px 6px;display:flex;align-items:center;gap:10px">
             <span style="font-size:26px">${c.icon}</span>
@@ -545,6 +583,14 @@
     selectSequence(id){
       if(IMAGING.sequences.some(x=>x.id===id)){ sequenceId=id; renderImaging(); }
     },
+    selectImagingCase(id){
+      if(LEARNING_CASES.imaging.some(x=>x.id===id)){ imagingCaseId=id; imagingRevealed=false; renderImaging(); }
+    },
+    toggleImagingAnswer(){ imagingRevealed=!imagingRevealed; renderImaging(); },
+    selectClinicCase(id){
+      if(LEARNING_CASES.clinic.some(x=>x.id===id)){ clinicCaseId=id; clinicStage=1; renderDiseases(); }
+    },
+    setClinicStage(stage){ clinicStage=Math.max(clinicStage,stage); renderDiseases(); },
     toggleDisease(id){
       const el = document.getElementById("dis-"+id);
       if(el) el.classList.toggle("open");
@@ -583,6 +629,9 @@
   document.addEventListener("click", e=>{
     if(!e.target.closest(".search-wrap")) $drop.classList.remove("open");
   });
+  window.addEventListener("medical-viewer-ready", ()=>{
+    if(current==="imaging" && window.MedicalViewer) window.MedicalViewer.init(imagingCaseId);
+  });
 
   function init(){
     const h = location.hash.replace("#","");
@@ -593,4 +642,3 @@
   }
   init();
 })();
-
