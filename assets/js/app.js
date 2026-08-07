@@ -31,6 +31,7 @@
   let imagingRevealed = false;
   let clinicCaseId = "stroke";
   let clinicStage = 1;
+  const anatomyModes = {};
 
   /* ---------- 工具 ---------- */
   const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -252,23 +253,37 @@
     $app.innerHTML = `
       <div class="anatomy-mission"><div><div class="section-kicker">LOCATION → FUNCTION → DEFICIT</div><h2>解剖不是认名字，而是解释症状</h2><p>每看一个结构都回答：它在哪里？与谁相邻？损伤后会发生什么？手术或穿刺时为什么要避开它？</p></div><button onclick="NS.go('imaging')">进入三维断层定位 →</button></div>
       <div class="card">
-        <h3>🧩 解剖图谱说明</h3>
-        <p style="font-size:13.5px;color:var(--ink-2)">以下为教学简化示意图，突出神经外科常用解剖标志与临床相关结构。建议配合 <b>The Neurosurgical Atlas</b>、Neuroanatomy Online 等 3D/实物资源对照学习（见“视频资源”页）。</p>
+        <h3>🧩 新版读图方法</h3>
+        <p style="font-size:13.5px;color:var(--ink-2)"><b>标准教材图</b>用于建立真实比例和空间关系；<b>中文速记图</b>只帮助记忆，不代表真实比例。先看方向，再找三个标志，最后把结构与症状、影像和手术风险连接起来。</p>
       </div>
-      ${ANATOMY.map(a=>`
-      <div class="anat-card">
+      ${ANATOMY.map(a=>{
+        const g = ANATOMY_GUIDES[a.id] || {image:null,orientation:"教学示意",landmarks:[],labels:[]};
+        const mode = anatomyModes[a.id] || (g.image ? "reference" : "memory");
+        return `<div class="anat-card anatomy-v2" id="anat-${a.id}">
         <div class="anat-head">
           <span class="chip chip-cat">${a.cat}</span>
           ${chip(a.level)}
           <b>${esc(a.name)}</b>
+          <span class="anatomy-orientation">🧭 ${g.orientation}</span>
         </div>
         <div class="anat-desc">${esc(a.desc)}</div>
-        <div class="anat-body">${a.svg}</div>
-        <div class="anat-points">
-          <ul>${a.points.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>
+        <div class="anatomy-modebar">
+          ${g.image?`<button class="${mode==='reference'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','reference')">标准教材图</button>`:""}
+          <button class="${mode==='memory'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','memory')">中文速记图</button>
+          ${g.image&&mode==='reference'?`<button class="zoom-action" onclick="NS.openAnatomyZoom('${g.image}','${esc(a.name)}')">放大查看 ⛶</button>`:""}
         </div>
-      </div>`).join("")}
-      <div class="foot-note">⚠️ 示意图仅供学习参考：SVG 图形为简化绘制，解剖比例与细节以专业图谱（如 Netter 神经解剖、Gray's Anatomy）与真实标本为准。</div>`;
+        <div class="anatomy-study-grid">
+          <div class="anat-body ${mode}">${mode==='reference'&&g.image?`<img src="${g.image}" alt="${esc(a.name)}标准教材解剖图" loading="lazy" onclick="NS.openAnatomyZoom('${g.image}','${esc(a.name)}')"><div class="reference-hint">点击图片可放大 · 英文标注见右侧中英对照</div>`:a.svg}</div>
+          <aside class="anatomy-coach">
+            <div class="anatomy-coach-block"><h4>① 先找这三个标志</h4><ol>${g.landmarks.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div>
+            <div class="anatomy-coach-block"><h4>② 图中英文对照</h4><div class="label-pairs">${g.labels.map(x=>`<div><span>${esc(x[0])}</span><b>${esc(x[1])}</b></div>`).join("")}</div></div>
+            <div class="anatomy-coach-block clinical"><h4>③ 为什么临床要认识</h4><ul>${a.points.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>
+          </aside>
+        </div>
+        ${g.image?`<div class="anatomy-source">标准图来源：OpenStax, Anatomy & Physiology 2e · CC BY 4.0；中文解释为本站教学整理。</div>`:""}
+      </div>`;}).join("")}
+      <div class="foot-note">⚠️ 标准教材图用于学习解剖关系，中文速记图是非比例示意。具体变异、手术定位与个体诊疗必须结合真实影像、专业图谱及临床团队判断。</div>
+      <div id="anatomy-lightbox" class="anatomy-lightbox" onclick="if(event.target===this) NS.closeAnatomyZoom()"><button onclick="NS.closeAnatomyZoom()" aria-label="关闭">×</button><div><h3 id="anatomy-lightbox-title"></h3><img id="anatomy-lightbox-img" alt="放大的解剖图"></div></div>`;
   }
 
   /* ---------- 手术方式 ---------- */
@@ -591,6 +606,17 @@
       if(LEARNING_CASES.clinic.some(x=>x.id===id)){ clinicCaseId=id; clinicStage=1; renderDiseases(); }
     },
     setClinicStage(stage){ clinicStage=Math.max(clinicStage,stage); renderDiseases(); },
+    setAnatomyMode(id,mode){
+      anatomyModes[id]=mode; renderAnatomy();
+      setTimeout(()=>document.getElementById("anat-"+id)?.scrollIntoView({block:"start"}),0);
+    },
+    openAnatomyZoom(src,title){
+      const box=document.getElementById("anatomy-lightbox"), img=document.getElementById("anatomy-lightbox-img"), h=document.getElementById("anatomy-lightbox-title");
+      if(box&&img&&h){ img.src=src; h.textContent=title; box.classList.add("open"); document.body.style.overflow="hidden"; }
+    },
+    closeAnatomyZoom(){
+      document.getElementById("anatomy-lightbox")?.classList.remove("open"); document.body.style.overflow="";
+    },
     toggleDisease(id){
       const el = document.getElementById("dis-"+id);
       if(el) el.classList.toggle("open");
