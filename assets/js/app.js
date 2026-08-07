@@ -32,6 +32,7 @@
   let clinicCaseId = "stroke";
   let clinicStage = 1;
   const anatomyModes = {};
+  let anatomyFocus = "overview";
 
   /* ---------- 工具 ---------- */
   const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -249,6 +250,37 @@
   }
 
   /* ---------- 解剖图谱 ---------- */
+  const LOBE_DETAILS = {
+    overview:{ title:"大脑外侧面：先用沟裂定方向", role:"左侧为前、右侧为后。先找中央沟和外侧沟，再区分四个脑叶；功能是网络协作，不是互不相干的彩色格子。", includes:["中央沟前：中央前回（以初级运动皮质 M1 为主）","中央沟后：中央后回（以初级体感皮质 S1 为主）","外侧沟下方：颞叶；后端：枕叶"], symptom:"定位时先结合症状的起病速度、侧别和完整查体，不能只凭一个表现给病变命名。", imaging:"在 MRI 轴位、冠状位和矢状位上反复对照中央沟、外侧沟与脑室，才能把二维切片还原成这个外侧面。", surgery:"手术规划必须额外评估优势半球语言、运动功能区、血管和白质束，不能仅依据这张表面图。" },
+    frontal:{ title:"额叶：计划、抑制、运动与语言表达", role:"额叶位于中央沟前方、外侧沟上方；中央前回是随意运动的重要皮层区。优势半球额下回附近常与语言表达有关。", includes:["中央前回：初级运动皮质（M1）","额前叶：执行功能、计划、抑制与社会行为","优势半球额下回：Broca 区附近，参与语言表达"], symptom:"可能出现对侧无力、动作笨拙、执行功能或人格行为改变；优势半球特定区域受损可有非流利性失语。表现取决于范围与优势半球。", imaging:"影像上先确认病灶是否位于中央沟前方，并沿相邻层面追踪到中央前回；急性缺血常需 DWI/ADC 与血管成像一起判断。", surgery:"靠近中央前回或优势半球额下回时，常需结合功能定位、神经导航和术中监测来定义安全边界。" },
+    parietal:{ title:"顶叶：感觉整合与空间注意", role:"顶叶位于中央沟后方、外侧沟上方。中央后回是初级体感皮质（S1）的重要区域；更后方顶叶参与空间注意与复杂动作。", includes:["中央后回：触觉、本体觉等体感信息","优势半球顶叶：计算、书写、复杂动作组织","非优势半球顶叶：空间注意与身体/环境表征"], symptom:"可出现对侧感觉异常、空间忽略、失用等；左右半球和具体部位不同，表现并不完全一样。", imaging:"重点看中央沟后方及顶叶深部白质通路；对称性和是否累及皮层/皮层下结构都重要。", surgery:"顶叶手术除保护感觉运动区外，也要重视视放射、语言和空间认知等功能网络。" },
+    temporal:{ title:"颞叶：听觉、记忆与语言理解网络", role:"颞叶位于外侧沟下方。上颞回与听觉相关，内侧颞叶包含海马等记忆结构；优势半球后部颞叶常与语言理解网络有关。", includes:["上颞回：听觉处理","内侧颞叶/海马：记忆网络的重要组成","优势半球后颞区：Wernicke 区附近，参与语言理解"], symptom:"可有记忆下降、局灶性癫痫发作、听觉/语言理解困难；不能把所有颞叶病变等同于同一种失语。", imaging:"MRI 对海马、颞角和颞叶皮层下病变更敏感；癫痫评估通常需要专门序列和多学科解读。", surgery:"颞叶尤其内侧结构与语言、记忆、视野有关；切除范围必须与病灶性质和功能评估一起决定。" },
+    occipital:{ title:"枕叶：视觉皮层与视觉通路终点", role:"枕叶位于大脑最后方。主要视觉皮层位于内侧面的距状沟周围，因此外侧面只显示枕叶的大致位置。", includes:["距状沟周围：主要视觉皮层（V1）","枕叶与顶叶、颞叶共同参与更复杂的视觉处理","外侧面没有清晰天然沟把枕叶完全切开"], symptom:"可能出现对侧视野缺损、视觉识别异常；眼球和视神经检查正常并不排除后部视觉通路病变。", imaging:"怀疑急性后循环缺血时，DWI 和血管成像很关键；需把病灶与视放射、枕叶内侧皮层的关系一起看。", surgery:"后部病变手术要把视野保护纳入风险告知与规划，不能只根据肉眼看到的外侧表面判断。" },
+    central:{ title:"中央沟附近：运动区与感觉区的分界线", role:"中央沟不是一道“功能墙”，但它是非常重要的表面定位标志：前方中央前回以运动功能为主，后方中央后回以感觉功能为主。", includes:["中央前回：M1，控制对侧随意运动","中央后回：S1，处理对侧体感信息","手、面和下肢在皮层上有不同的体表定位"], symptom:"靠近这里的病变可产生对侧力量或感觉改变；面、手、下肢的受累分布可为定位提供线索。", imaging:"不要只在一张轴位片上找中央沟；应在三平面连续追踪，并结合脑沟形态和中央前/后回特征判断。", surgery:"中央沟周围是功能外科和肿瘤手术的高风险区域，通常需使用个体化功能成像、皮层刺激或神经电生理监测。" }
+  };
+
+  function lobeInteractiveSVG(){
+    const focus = anatomyFocus;
+    const hit = id => `lobe-hit ${focus===id?'selected':''}`;
+    return `<div class="lobe-interactive-wrap"><svg class="lobe-interactive" viewBox="0 0 545 500" role="img" aria-label="可点击的大脑外侧面中文互动图">
+      <defs><clipPath id="brain-crop"><path d="M15 112 Q30 40 142 14 Q262 -4 380 38 Q490 72 520 166 Q542 234 505 292 Q478 337 446 356 Q464 395 426 425 Q386 443 350 408 L343 500 L302 500 L306 421 Q230 430 145 392 Q62 356 22 288 Q0 230 5 168 Z"/></clipPath></defs>
+      <image href="assets/anatomy-reference/lobes.jpg" x="-40" y="-86" width="733" height="621" clip-path="url(#brain-crop)" opacity=".98"/>
+      <path class="${hit('frontal')}" onclick="NS.selectLobe('frontal')" d="M12 90 Q42 25 160 15 Q245 10 300 70 L303 205 Q265 270 205 324 Q120 356 48 320 Q8 275 8 185Z"/>
+      <path class="${hit('parietal')}" onclick="NS.selectLobe('parietal')" d="M294 38 Q388 20 482 88 Q530 135 510 224 L414 246 L303 196Z"/>
+      <path class="${hit('temporal')}" onclick="NS.selectLobe('temporal')" d="M110 232 Q230 178 340 205 Q415 232 461 314 Q400 402 265 417 Q150 400 94 322Z"/>
+      <path class="${hit('occipital')}" onclick="NS.selectLobe('occipital')" d="M472 104 Q540 142 528 240 Q514 314 446 352 Q431 320 442 256 Q450 178 472 104Z"/>
+      <path class="${hit('central')}" onclick="NS.selectLobe('central')" d="M303 42 Q278 115 286 184 Q294 250 276 322" fill="none" stroke="transparent" stroke-width="32"/>
+      <g class="cn-label" pointer-events="none"><text x="150" y="150">额叶</text><text x="370" y="145">顶叶</text><text x="260" y="330">颞叶</text><text x="466" y="260">枕叶</text></g>
+      <g class="functional-tag" pointer-events="none"><rect x="270" y="89" width="38" height="54" rx="8"/><text x="289" y="121">M1</text><rect x="310" y="89" width="38" height="54" rx="8"/><text x="329" y="121">S1</text></g>
+      <g class="cn-callout" pointer-events="none"><path d="M286 64 L360 28"/><text x="367" y="32">中央沟</text><path d="M248 218 L64 254"/><text x="17" y="268">外侧沟</text></g>
+    </svg><div class="lobe-interaction-tip">点击彩色脑区或中央沟附近，查看中文功能说明</div></div>`;
+  }
+
+  function lobeFocusPanel(){
+    const d = LOBE_DETAILS[anatomyFocus] || LOBE_DETAILS.overview;
+    return `<div class="lobe-focus-panel"><div class="lobe-focus-title"><span>已选区域</span><h3>${d.title}</h3></div><div class="lobe-focus-section"><b>主要作用</b><p>${d.role}</p></div><div class="lobe-focus-section"><b>包括哪些重要结构</b><ul>${d.includes.map(x=>`<li>${x}</li>`).join("")}</ul></div><div class="lobe-focus-section warn"><b>受影响时可能出现</b><p>${d.symptom}</p></div><div class="lobe-focus-section"><b>影像上怎么找</b><p>${d.imaging}</p></div><div class="lobe-focus-section surgery"><b>手术/临床意义</b><p>${d.surgery}</p></div></div>`;
+  }
+
   function renderAnatomy(){
     $app.innerHTML = `
       <div class="anatomy-mission"><div><div class="section-kicker">LOCATION → FUNCTION → DEFICIT</div><h2>解剖不是认名字，而是解释症状</h2><p>每看一个结构都回答：它在哪里？与谁相邻？损伤后会发生什么？手术或穿刺时为什么要避开它？</p></div><button onclick="NS.go('imaging')">进入三维断层定位 →</button></div>
@@ -258,7 +290,8 @@
       </div>
       ${ANATOMY.map(a=>{
         const g = ANATOMY_GUIDES[a.id] || {image:null,orientation:"教学示意",landmarks:[],labels:[]};
-        const mode = anatomyModes[a.id] || (g.image ? "reference" : "memory");
+        const mode = anatomyModes[a.id] || (a.id==="lobes" ? "interactive" : (g.image ? "reference" : "memory"));
+        const interactive = a.id==="lobes" && mode==="interactive";
         return `<div class="anat-card anatomy-v2" id="anat-${a.id}">
         <div class="anat-head">
           <span class="chip chip-cat">${a.cat}</span>
@@ -268,16 +301,15 @@
         </div>
         <div class="anat-desc">${esc(a.desc)}</div>
         <div class="anatomy-modebar">
+          ${a.id==='lobes'?`<button class="${mode==='interactive'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','interactive')">中文互动图</button>`:""}
           ${g.image?`<button class="${mode==='reference'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','reference')">标准教材图</button>`:""}
           <button class="${mode==='memory'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','memory')">中文速记图</button>
           ${g.image&&mode==='reference'?`<button class="zoom-action" onclick="NS.openAnatomyZoom('${g.image}','${esc(a.name)}')">放大查看 ⛶</button>`:""}
         </div>
         <div class="anatomy-study-grid">
-          <div class="anat-body ${mode}">${mode==='reference'&&g.image?`<img src="${g.image}" alt="${esc(a.name)}标准教材解剖图" loading="lazy" onclick="NS.openAnatomyZoom('${g.image}','${esc(a.name)}')"><div class="reference-hint">点击图片可放大 · 英文标注见右侧中英对照</div>`:a.svg}</div>
+          <div class="anat-body ${mode}">${interactive?lobeInteractiveSVG():mode==='reference'&&g.image?`<img src="${g.image}" alt="${esc(a.name)}标准教材解剖图" loading="lazy" onclick="NS.openAnatomyZoom('${g.image}','${esc(a.name)}')"><div class="reference-hint">点击图片可放大 · 英文标注见右侧中英对照</div>`:a.svg}</div>
           <aside class="anatomy-coach">
-            <div class="anatomy-coach-block"><h4>① 先找这三个标志</h4><ol>${g.landmarks.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div>
-            <div class="anatomy-coach-block"><h4>② 图中英文对照</h4><div class="label-pairs">${g.labels.map(x=>`<div><span>${esc(x[0])}</span><b>${esc(x[1])}</b></div>`).join("")}</div></div>
-            <div class="anatomy-coach-block clinical"><h4>③ 为什么临床要认识</h4><ul>${a.points.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>
+            ${interactive?lobeFocusPanel():`<div class="anatomy-coach-block"><h4>① 先找这三个标志</h4><ol>${g.landmarks.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div><div class="anatomy-coach-block"><h4>② 图中英文对照</h4><div class="label-pairs">${g.labels.map(x=>`<div><span>${esc(x[0])}</span><b>${esc(x[1])}</b></div>`).join("")}</div></div><div class="anatomy-coach-block clinical"><h4>③ 为什么临床要认识</h4><ul>${a.points.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`}
           </aside>
         </div>
         ${g.image?`<div class="anatomy-source">标准图来源：OpenStax, Anatomy & Physiology 2e · CC BY 4.0；中文解释为本站教学整理。</div>`:""}
@@ -609,6 +641,9 @@
     setAnatomyMode(id,mode){
       anatomyModes[id]=mode; renderAnatomy();
       setTimeout(()=>document.getElementById("anat-"+id)?.scrollIntoView({block:"start"}),0);
+    },
+    selectLobe(id){
+      if(LOBE_DETAILS[id]){ anatomyFocus=id; anatomyModes.lobes="interactive"; renderAnatomy(); setTimeout(()=>document.getElementById("anat-lobes")?.scrollIntoView({block:"start"}),0); }
     },
     openAnatomyZoom(src,title){
       const box=document.getElementById("anatomy-lightbox"), img=document.getElementById("anatomy-lightbox-img"), h=document.getElementById("anatomy-lightbox-title");
