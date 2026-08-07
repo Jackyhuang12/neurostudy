@@ -33,6 +33,7 @@
   let clinicStage = 1;
   const anatomyModes = {};
   let anatomyFocus = "overview";
+  const anatomySpotFocus = {};
 
   /* ---------- 工具 ---------- */
   const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -259,6 +260,98 @@
     central:{ title:"中央沟附近：运动区与感觉区的分界线", role:"中央沟不是一道“功能墙”，但它是非常重要的表面定位标志：前方中央前回以运动功能为主，后方中央后回以感觉功能为主。", includes:["中央前回：M1，控制对侧随意运动","中央后回：S1，处理对侧体感信息","手、面和下肢在皮层上有不同的体表定位"], symptom:"靠近这里的病变可产生对侧力量或感觉改变；面、手、下肢的受累分布可为定位提供线索。", imaging:"不要只在一张轴位片上找中央沟；应在三平面连续追踪，并结合脑沟形态和中央前/后回特征判断。", surgery:"中央沟周围是功能外科和肿瘤手术的高风险区域，通常需使用个体化功能成像、皮层刺激或神经电生理监测。" }
   };
 
+  const ANATOMY_HOTSPOTS = {
+    "skull-front": [
+      { x:48, y:27, label:"额骨", title:"额骨：前额与前颅窝的屋顶", role:"正面观最上方的大块骨，构成前额、眶上缘和部分前颅窝底。", find:"先找两侧眼眶，再向上看整片前额区域；眉弓上方就是额骨。", clinical:"额窦、眶顶和前颅窝底骨折会影响手术入路、脑脊液漏风险和眼眶相关症状。" },
+      { x:50, y:47, label:"眼眶", title:"眼眶：眼球、视神经与眶内容物的骨性通道", role:"由多块骨共同围成，容纳眼球、眼外肌、血管和视神经。", find:"两侧对称的大空腔就是眼眶，先认眶上缘、眶下缘和眶内侧壁。", clinical:"颅底、眶尖和海绵窦附近病变常会牵涉视力、眼球运动和复视。" },
+      { x:30, y:57, label:"颧骨", title:"颧骨：面中部外侧支架", role:"形成颧弓前部和眼眶外下壁，是面部轮廓的重要骨性支撑。", find:"从眼眶外下缘向外下方追踪，突出的颊部骨性结构就是颧骨。", clinical:"颧骨、眶壁和上颌骨骨折会改变面中部稳定性，也影响眶内容物和咬合。" },
+      { x:47, y:66, label:"上颌骨", title:"上颌骨：上牙列与鼻腔、眼眶相邻", role:"构成上牙槽、鼻腔外侧壁和部分眶底。", find:"鼻腔两侧、上牙列上方的大块骨就是上颌骨。", clinical:"上颌窦、眶底和鼻腔关系密切；颌面创伤或颅底入路需要理解这个空间。" },
+      { x:51, y:84, label:"下颌骨", title:"下颌骨：唯一可活动的颅面骨", role:"承载下牙列，通过颞下颌关节与颅骨相连。", find:"正面最下方 U 形骨性结构，围绕下牙列。", clinical:"气道管理、面部外伤和颞下颌关节问题都离不开下颌骨定位。" }
+    ],
+    "skull-side": [
+      { x:34, y:26, label:"冠状缝", title:"冠状缝：额骨与顶骨的边界", role:"把前方额骨和后方顶骨分开，是侧面颅骨定位的第一条大缝。", find:"从颅顶向下走，位于额骨和顶骨交界的锯齿状线。", clinical:"儿童骨缝过早闭合会影响颅形；外伤读片时骨缝和骨折线要区分。" },
+      { x:66, y:38, label:"人字缝", title:"人字缝：顶骨与枕骨的交界", role:"位于后上方，连接两侧顶骨与枕骨。", find:"先找到后方枕骨，再向上看 V 形或锯齿状交界。", clinical:"后部颅骨骨折、儿童颅缝发育和后颅窝入路都需要辨认它。" },
+      { x:34, y:55, label:"翼点", title:"翼点：四骨交界的薄弱区", role:"额、顶、颞、蝶四骨交界处，是神经外科很重要的体表定位点。", find:"位于颧弓上方、额骨后下方、颞窝前上部。", clinical:"深面邻近脑膜中动脉前支；翼点入路、硬膜外血肿定位都常提到它。" },
+      { x:25, y:62, label:"鳞状缝", title:"鳞状缝：顶骨与颞骨之间", role:"位于颞窝上方，把顶骨和颞骨鳞部区分开。", find:"从外耳门上方往前上方看，弧形骨缝附近就是鳞状缝。", clinical:"颞部外伤、颞肌剥离和侧方入路时容易遇到这一层次。" },
+      { x:37, y:73, label:"外耳门", title:"外耳门：侧颅底定位锚点", role:"外耳道入口，是侧面颅骨图上很稳定的定位点。", find:"颧弓后下方的圆形开口。", clinical:"乳突、乙状窦后入路和颞骨手术常以外耳门、乳突等标志定方向。" }
+    ],
+    meninges: [
+      { x:48, y:18, label:"上矢状窦", title:"上矢状窦：硬膜静脉回流主干", role:"位于大脑镰上缘，收集浅表静脉血并接收蛛网膜颗粒回吸的脑脊液。", find:"冠状切面最上方、正中硬膜内的静脉窦。", clinical:"旁矢状窦肿瘤、静脉窦血栓和手术止血都需要保护它。" },
+      { x:31, y:35, label:"硬脑膜", title:"硬脑膜：最外层、最坚韧", role:"贴近颅骨内板，内层反折形成大脑镰、小脑幕等结构。", find:"从颅骨内面向内看，最外侧厚实的一层。", clinical:"硬膜外血肿在颅骨和硬膜之间，硬膜下血肿在硬膜与蛛网膜之间。" },
+      { x:39, y:49, label:"蛛网膜", title:"蛛网膜：跨过脑沟的一层薄膜", role:"位于硬脑膜内侧，不深入脑沟，下面是含脑脊液的蛛网膜下腔。", find:"看它像桥一样跨过脑沟，而不是贴进沟底。", clinical:"蛛网膜下腔出血、脑脊液循环和脑池都与这一层有关。" },
+      { x:43, y:61, label:"软脑膜", title:"软脑膜：紧贴脑表面", role:"贴着脑回脑沟起伏进入沟底，最靠近脑组织。", find:"在脑表面最内侧，沿脑沟脑回走行。", clinical:"感染、炎症和血管进入脑表面的关系常要从软脑膜层次理解。" },
+      { x:50, y:46, label:"蛛网膜下腔", title:"蛛网膜下腔：脑脊液与血管所在空间", role:"位于蛛网膜与软脑膜之间，含脑脊液和脑表面血管。", find:"在跨沟的蛛网膜下方、贴脑表面的软脑膜上方。", clinical:"动脉瘤破裂常表现为蛛网膜下腔出血，CT 或腰穿会围绕这个空间判断。" }
+    ],
+    medial: [
+      { x:44, y:37, label:"胼胝体", title:"胼胝体：连接左右半球的白质桥", role:"巨大的 C 形白质束，负责两半球之间的信息传递。", find:"正中矢状面中央偏上、弯曲的白色弓形结构。", clinical:"胼胝体受侵可提示跨半球病变；部分癫痫手术会涉及胼胝体切开。" },
+      { x:49, y:51, label:"丘脑", title:"丘脑：感觉与意识通路中继站", role:"多数感觉信息通往皮层前会经过丘脑整合。", find:"胼胝体下方、第三脑室两侧的深部灰质团块。", clinical:"丘脑出血或梗死可出现感觉障碍、意识改变或复杂神经症状。" },
+      { x:50, y:61, label:"垂体", title:"垂体：鞍区内分泌核心", role:"位于蝶鞍内，通过垂体柄与下丘脑相连。", find:"在脑底正中、视交叉和下丘脑下方的小腺体。", clinical:"垂体瘤可造成内分泌异常、视交叉受压和头痛。" },
+      { x:63, y:72, label:"脑干", title:"脑干：中脑、桥脑、延髓连续体", role:"连接大脑、小脑和脊髓，包含重要传导束与颅神经核。", find:"从丘脑下方往后下方追踪，依次到中脑、桥脑、延髓。", clinical:"小病灶也可造成复视、吞咽困难、交叉性体征或意识障碍。" },
+      { x:73, y:43, label:"距状沟", title:"距状沟：初级视觉皮层周围", role:"枕叶内侧面的关键沟裂，周围是主要视觉皮层。", find:"在内侧面后部，沿枕叶内侧横向走行。", clinical:"距状沟周围病变常与对侧视野缺损相关。" }
+    ],
+    ventricles: [
+      { x:35, y:26, label:"侧脑室", title:"侧脑室：脑脊液循环起点之一", role:"左右各一，含额角、体部、枕角和颞角。", find:"先找两侧对称、最大的一对脑室腔。", clinical:"侧脑室扩大常提示脑积水、脑萎缩或占位压迫后的形态改变。" },
+      { x:50, y:35, label:"室间孔", title:"室间孔：侧脑室通向第三脑室", role:"连接侧脑室与第三脑室，是脑脊液流动的狭窄通道。", find:"位于侧脑室向中线汇入第三脑室的入口处。", clinical:"这里阻塞可导致一侧或双侧侧脑室扩大。" },
+      { x:50, y:47, label:"第三脑室", title:"第三脑室：中线深部腔隙", role:"位于两侧丘脑之间，向下接中脑导水管。", find:"在中线、侧脑室下方的细长腔隙。", clinical:"第三脑室区病变可引起梗阻性脑积水或下丘脑相关表现。" },
+      { x:50, y:61, label:"中脑导水管", title:"中脑导水管：最容易狭窄的细通道", role:"连接第三脑室和第四脑室。", find:"第三脑室向下到第四脑室之间最细的一段。", clinical:"导水管狭窄是梗阻性脑积水的经典原因之一。" },
+      { x:50, y:74, label:"第四脑室", title:"第四脑室：后颅窝脑脊液腔", role:"位于脑干背侧、小脑腹侧，向蛛网膜下腔开放。", find:"后颅窝中线、桥脑延髓背后的菱形腔。", clinical:"后颅窝肿瘤或出血可压迫第四脑室，引起急性脑积水。" }
+    ],
+    willis: [
+      { x:50, y:27, label:"前交通", title:"前交通动脉：前循环闭环关键点", role:"连接左右大脑前动脉。", find:"脑底前方、中线处连接两侧 ACA 的短桥。", clinical:"前交通动脉瘤常见，破裂可导致蛛网膜下腔出血。" },
+      { x:34, y:42, label:"颈内动脉", title:"颈内动脉：前循环入口", role:"向颅内供应 ACA、MCA 等前循环分支。", find:"从两侧进入脑底，向上分出大脑前、中动脉。", clinical:"狭窄、闭塞或动脉瘤会影响前循环供血和治疗策略。" },
+      { x:31, y:33, label:"大脑中动脉", title:"大脑中动脉：外侧裂方向的大分支", role:"供应大脑外侧面大量皮层和深穿支区域。", find:"从颈内动脉分叉后向外侧裂方向走。", clinical:"MCA 卒中常见，可影响运动、感觉、语言或空间注意。" },
+      { x:63, y:52, label:"后交通", title:"后交通动脉：前后循环连接", role:"连接颈内动脉系统与大脑后动脉。", find:"位于 ICA 后方，斜向后连接 PCA。", clinical:"后交通动脉瘤可压迫动眼神经，出现眼睑下垂、复视等表现。" },
+      { x:50, y:72, label:"基底动脉", title:"基底动脉：椎基底系统主干", role:"由双侧椎动脉汇合形成，沿脑桥腹侧上行。", find:"脑底后方正中、从下往上的粗大动脉。", clinical:"基底动脉闭塞是高危卒中，需要紧急专业处理。" }
+    ],
+    brainstem: [
+      { x:47, y:24, label:"中脑", title:"中脑：上接间脑、下接桥脑", role:"含动眼神经相关核团和重要上下行传导束。", find:"脑干最上段，位于桥脑上方。", clinical:"中脑病变可出现眼球运动异常、瞳孔改变、运动或意识问题。" },
+      { x:49, y:45, label:"桥脑", title:"桥脑：腹侧膨隆的脑干中段", role:"连接大脑、小脑和延髓，含多条颅神经相关结构。", find:"脑干中部最膨隆的一段，前方常见基底动脉关系。", clinical:"桥脑病变可出现面瘫、眼球运动异常、肢体无力或意识障碍。" },
+      { x:51, y:67, label:"延髓", title:"延髓：脑干下段与脊髓连接", role:"含生命维持相关中枢和吞咽、声音等相关颅神经核团。", find:"桥脑下方逐渐变窄，向下连续脊髓。", clinical:"延髓病变可影响吞咽、声音、呼吸和交叉性感觉运动体征。" },
+      { x:70, y:48, label:"小脑", title:"小脑：平衡与协调调校器", role:"参与平衡、步态、眼动和精细运动协调。", find:"脑干后方的大块叶状结构。", clinical:"小脑病变常表现为共济失调、眼震、走路不稳，不一定是单纯无力。" },
+      { x:50, y:84, label:"脊髓", title:"脊髓：脑干向下的连续通路", role:"承接上下行运动、感觉和自主神经通路。", find:"延髓下方继续向椎管内延伸。", clinical:"延髓和上颈髓交界病变风险高，症状可快速严重。" }
+    ],
+    spinal: [
+      { x:50, y:35, label:"后角", title:"后角：感觉信息入口附近", role:"主要与感觉传入信息处理有关。", find:"脊髓横断面后方较细长的灰质角。", clinical:"后根、后角和后索问题常与感觉异常、疼痛或本体觉改变相关。" },
+      { x:50, y:62, label:"前角", title:"前角：下运动神经元所在区域", role:"含支配骨骼肌的运动神经元。", find:"横断面前方较宽大的灰质角。", clinical:"前角细胞受损可出现肌无力、萎缩和腱反射改变。" },
+      { x:50, y:49, label:"中央管", title:"中央管：脊髓中央小腔", role:"位于灰质中央，内含少量脑脊液。", find:"H 形灰质正中央的小点或小管腔。", clinical:"脊髓空洞症常围绕中央区域扩展，影响交叉痛温觉纤维。" },
+      { x:68, y:43, label:"后根神经节", title:"后根神经节：感觉神经元胞体聚集", role:"后根上膨大的结构，含感觉神经元胞体。", find:"脊髓外侧、后根路径上的膨大结节。", clinical:"神经根痛、带状疱疹相关神经痛等常会提到这一结构。" },
+      { x:35, y:50, label:"白质", title:"白质：上下行传导束所在", role:"包绕灰质，包含运动、感觉等长传导通路。", find:"H 形灰质外围较浅色区域。", clinical:"不同传导束受损组合决定脊髓损伤综合征的表现。" }
+    ],
+    "spine-side": [
+      { x:37, y:33, label:"椎体", title:"椎体：脊柱前方承重结构", role:"承担主要轴向负重，通过椎间盘上下相连。", find:"侧面观最前方一列方块样骨性结构。", clinical:"压缩骨折、肿瘤破坏和退变稳定性评估都要看椎体。" },
+      { x:39, y:47, label:"椎间盘", title:"椎间盘：椎体之间的缓冲垫", role:"由外层纤维环和中央髓核组成，帮助承重和活动。", find:"相邻椎体之间的间隙结构。", clinical:"突出或膨出可压迫神经根或脊髓，症状取决于节段和方向。" },
+      { x:76, y:44, label:"纤维环", title:"纤维环：椎间盘外层", role:"环形纤维结构包绕髓核，维持椎间盘形态。", find:"横断面中围绕中央髓核的外圈。", clinical:"纤维环破裂后，髓核可向后外侧突出刺激神经根。" },
+      { x:79, y:52, label:"髓核", title:"髓核：椎间盘中央胶冻样核心", role:"负责分散压力，是突出物的重要来源。", find:"横断面椎间盘中央区域。", clinical:"髓核突出方向决定压迫硬膜囊、神经根还是脊髓。" },
+      { x:62, y:39, label:"神经根", title:"神经根：从椎间孔离开椎管", role:"连接脊髓与外周神经，支配相应节段感觉和运动。", find:"侧面观从椎间孔向外走出的细长结构。", clinical:"根性痛、麻木和肌力下降常按神经根节段定位。" }
+    ],
+    "dural-layers": [
+      { x:27, y:28, label:"前颅窝", title:"前颅窝：额叶底面与嗅神经区域", role:"承托额叶底面，包含筛板等结构。", find:"颅底内面最前、最浅的一窝。", clinical:"前颅窝底骨折可出现脑脊液鼻漏和嗅觉问题。" },
+      { x:50, y:41, label:"中颅窝", title:"中颅窝：颞叶、海绵窦与蝶鞍区域", role:"位于前后颅窝之间，容纳颞叶和鞍区结构。", find:"蝶骨小翼后方、岩骨嵴前方的区域。", clinical:"垂体、海绵窦、三叉神经和颞叶底面病变常关联这里。" },
+      { x:69, y:57, label:"后颅窝", title:"后颅窝：小脑与脑干所在", role:"容纳小脑、脑干和第四脑室。", find:"颅底内面最后、最深的窝。", clinical:"后颅窝空间小，出血或肿瘤可快速压迫脑干和第四脑室。" },
+      { x:59, y:68, label:"枕骨大孔", title:"枕骨大孔：延髓到脊髓的门户", role:"脑干下端和脊髓在这里连续，椎动脉也经附近进入颅内。", find:"后颅窝中央的大孔。", clinical:"小脑扁桃体下疝、颅颈交界畸形和后颅窝减压都围绕它判断。" },
+      { x:58, y:45, label:"岩骨嵴", title:"岩骨嵴：中后颅窝分界", role:"颞骨岩部上缘，是中颅窝和后颅窝的骨性分界。", find:"在颅底侧后方斜行的坚硬骨嵴。", clinical:"岩斜区、桥小脑角和乙状窦后入路会反复用到这个方向感。" }
+    ]
+  };
+
+  function anatomySpotsFor(a,g){
+    const configured = ANATOMY_HOTSPOTS[a.id];
+    if(configured && configured.length) return configured;
+    return (g.labels || []).map((x,i)=>({ x:20 + (i%2)*45, y:22 + i*12, label:x[1], title:`${x[1]}：${x[0]}`, role:`图中英文标注为 ${x[0]}，中文为${x[1]}。`, find:(g.landmarks || [])[i % Math.max((g.landmarks || []).length,1)] || "先按方向和相邻结构定位。", clinical:(a.points || [])[i % Math.max((a.points || []).length,1)] || "结合症状、影像和相邻结构理解临床意义。" }));
+  }
+
+  function anatomySpotDetail(a,g){
+    const spots = anatomySpotsFor(a,g);
+    const idx = Math.min(anatomySpotFocus[a.id] || 0, Math.max(spots.length - 1, 0));
+    const s = spots[idx] || {title:a.name,role:a.desc,find:"先看方向，再找稳定标志。",clinical:(a.points||[])[0]||""};
+    return `<div class="lobe-focus-panel anatomy-spot-panel"><div class="lobe-focus-title"><span>点击图中中文标签可切换</span><h3>${esc(s.title)}</h3></div><div class="lobe-focus-section"><b>它是什么</b><p>${esc(s.role)}</p></div><div class="lobe-focus-section"><b>图上怎么找</b><p>${esc(s.find)}</p></div><div class="lobe-focus-section surgery"><b>为什么临床要认识</b><p>${esc(s.clinical)}</p></div><div class="anatomy-coach-block"><h4>快速复盘</h4><ol>${(g.landmarks||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div></div>`;
+  }
+
+  function anatomyInteractiveFigure(a,g){
+    const spots = anatomySpotsFor(a,g);
+    const active = Math.min(anatomySpotFocus[a.id] || 0, Math.max(spots.length - 1, 0));
+    return `<div class="anatomy-hotspot-wrap"><img src="${g.image}" alt="${esc(a.name)}中文互动解剖图" loading="lazy">${spots.map((s,i)=>`<button class="anat-hotspot ${i===active?'active':''}" style="left:${s.x}%;top:${s.y}%" onclick="NS.selectAnatomySpot('${a.id}',${i})" title="${esc(s.title)}"><i></i><span>${esc(s.label)}</span></button>`).join("")}<div class="reference-hint">点击中文标签查看解释 · 原始英文图可切到“原始教材图”</div></div>`;
+  }
+
   function lobeInteractiveSVG(){
     const focus = anatomyFocus;
     const hit = id => `lobe-hit ${focus===id?'selected':''}`;
@@ -290,8 +383,9 @@
       </div>
       ${ANATOMY.map(a=>{
         const g = ANATOMY_GUIDES[a.id] || {image:null,orientation:"教学示意",landmarks:[],labels:[]};
-        const mode = anatomyModes[a.id] || (a.id==="lobes" ? "interactive" : (g.image ? "reference" : "memory"));
+        const mode = anatomyModes[a.id] || (g.image ? "interactive" : "memory");
         const interactive = a.id==="lobes" && mode==="interactive";
+        const hotspotInteractive = a.id!=="lobes" && g.image && mode==="interactive";
         return `<div class="anat-card anatomy-v2" id="anat-${a.id}">
         <div class="anat-head">
           <span class="chip chip-cat">${a.cat}</span>
@@ -301,15 +395,15 @@
         </div>
         <div class="anat-desc">${esc(a.desc)}</div>
         <div class="anatomy-modebar">
-          ${a.id==='lobes'?`<button class="${mode==='interactive'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','interactive')">中文互动图</button>`:""}
-          ${g.image?`<button class="${mode==='reference'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','reference')">标准教材图</button>`:""}
+          ${g.image?`<button class="${mode==='interactive'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','interactive')">中文互动图</button>`:""}
+          ${g.image?`<button class="${mode==='reference'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','reference')">原始教材图</button>`:""}
           <button class="${mode==='memory'?'active':''}" onclick="NS.setAnatomyMode('${a.id}','memory')">中文速记图</button>
           ${g.image&&mode==='reference'?`<button class="zoom-action" onclick="NS.openAnatomyZoom('${g.image}','${esc(a.name)}')">放大查看 ⛶</button>`:""}
         </div>
         <div class="anatomy-study-grid">
-          <div class="anat-body ${mode}">${interactive?lobeInteractiveSVG():mode==='reference'&&g.image?`<img src="${g.image}" alt="${esc(a.name)}标准教材解剖图" loading="lazy" onclick="NS.openAnatomyZoom('${g.image}','${esc(a.name)}')"><div class="reference-hint">点击图片可放大 · 英文标注见右侧中英对照</div>`:a.svg}</div>
+          <div class="anat-body ${mode}">${interactive?lobeInteractiveSVG():hotspotInteractive?anatomyInteractiveFigure(a,g):mode==='reference'&&g.image?`<img src="${g.image}" alt="${esc(a.name)}标准教材解剖图" loading="lazy" onclick="NS.openAnatomyZoom('${g.image}','${esc(a.name)}')"><div class="reference-hint">点击图片可放大 · 这是原始英文教材图</div>`:a.svg}</div>
           <aside class="anatomy-coach">
-            ${interactive?lobeFocusPanel():`<div class="anatomy-coach-block"><h4>① 先找这三个标志</h4><ol>${g.landmarks.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div><div class="anatomy-coach-block"><h4>② 图中英文对照</h4><div class="label-pairs">${g.labels.map(x=>`<div><span>${esc(x[0])}</span><b>${esc(x[1])}</b></div>`).join("")}</div></div><div class="anatomy-coach-block clinical"><h4>③ 为什么临床要认识</h4><ul>${a.points.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`}
+            ${interactive?lobeFocusPanel():hotspotInteractive?anatomySpotDetail(a,g):`<div class="anatomy-coach-block"><h4>① 先找这三个标志</h4><ol>${g.landmarks.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div><div class="anatomy-coach-block"><h4>② 图中英文对照</h4><div class="label-pairs">${g.labels.map(x=>`<div><span>${esc(x[0])}</span><b>${esc(x[1])}</b></div>`).join("")}</div></div><div class="anatomy-coach-block clinical"><h4>③ 为什么临床要认识</h4><ul>${a.points.map(p=>`<li>${esc(p)}</li>`).join("")}</ul></div>`}
           </aside>
         </div>
         ${g.image?`<div class="anatomy-source">标准图来源：OpenStax, Anatomy & Physiology 2e · CC BY 4.0；中文解释为本站教学整理。</div>`:""}
@@ -644,6 +738,12 @@
     },
     selectLobe(id){
       if(LOBE_DETAILS[id]){ anatomyFocus=id; anatomyModes.lobes="interactive"; renderAnatomy(); setTimeout(()=>document.getElementById("anat-lobes")?.scrollIntoView({block:"start"}),0); }
+    },
+    selectAnatomySpot(id,index){
+      anatomySpotFocus[id]=index;
+      anatomyModes[id]="interactive";
+      renderAnatomy();
+      setTimeout(()=>document.getElementById("anat-"+id)?.scrollIntoView({block:"start"}),0);
     },
     openAnatomyZoom(src,title){
       const box=document.getElementById("anatomy-lightbox"), img=document.getElementById("anatomy-lightbox-img"), h=document.getElementById("anatomy-lightbox-title");
