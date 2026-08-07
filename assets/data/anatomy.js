@@ -513,3 +513,68 @@ const ANATOMY = [
     points: ["小脑幕切迹：幕上占位致海马钩回疝入切迹，压迫动眼神经与大脑脚", "枕骨大孔：延髓与椎动脉穿行，小脑扁桃体疝可致呼吸骤停", "颅底骨折定位：前窝→嗅/视；中窝→面听、颈静脉孔结构", "内耳门（ⅦⅧ）、颈静脉孔（ⅨⅩⅪ）是 CPA 区手术与肿瘤评估核心"]
   }
 ];
+
+/* 标准教材图与中文读图导航。主图来自 OpenStax A&P 2e（CC BY 4.0）；
+   原内联 SVG 作为“中文速记图”保留，避免把教学简图误当成真实比例。 */
+const ANATOMY_GUIDES = {
+  "skull-front": {
+    image:"assets/anatomy-reference/skull-front.jpg", orientation:"正面观 · 面向观察者",
+    landmarks:["先找两侧眼眶与正中鼻腔", "向上确认额骨，向外确认颧骨", "沿上、下牙列区分上颌骨与下颌骨"],
+    labels:[["Frontal bone","额骨"],["Orbit","眼眶"],["Zygomatic bone","颧骨"],["Maxilla","上颌骨"],["Mandible","下颌骨"]]
+  },
+  "skull-side": {
+    image:"assets/anatomy-reference/skull-side.jpg", orientation:"侧面观 · 面部在前、枕部在后",
+    landmarks:["先找外耳门和颧弓", "沿冠状缝分开额骨与顶骨", "在颧弓上方、额顶颞蝶交界定位翼点"],
+    labels:[["Coronal suture","冠状缝"],["Squamous suture","鳞状缝"],["Lambdoid suture","人字缝"],["Zygomatic arch","颧弓"],["External acoustic meatus","外耳门"]]
+  },
+  "meninges": {
+    image:"assets/anatomy-reference/meninges.jpg", orientation:"冠状切面 · 从颅骨向脑表面逐层看",
+    landmarks:["颅骨内面紧贴硬脑膜", "蛛网膜跨过脑沟，软脑膜贴入脑沟", "上矢状窦内可见蛛网膜颗粒回收脑脊液"],
+    labels:[["Dura mater","硬脑膜"],["Arachnoid mater","蛛网膜"],["Subarachnoid space","蛛网膜下腔"],["Pia mater","软脑膜"],["Superior sagittal sinus","上矢状窦"]]
+  },
+  "lobes": {
+    image:"assets/anatomy-reference/lobes.jpg", orientation:"左侧外侧面 · 左侧为前、右侧为后",
+    landmarks:["中央沟前是中央前回（运动），后是中央后回（感觉）", "外侧裂把颞叶与额顶叶分开", "枕叶在最后方；外侧面与顶、颞叶边界并非一条天然清晰沟"],
+    labels:[["Frontal lobe","额叶"],["Parietal lobe","顶叶"],["Temporal lobe","颞叶"],["Occipital lobe","枕叶"],["Central sulcus","中央沟"],["Lateral sulcus","外侧沟（外侧裂）"]]
+  },
+  "medial": {
+    image:"assets/anatomy-reference/medial.jpg", orientation:"正中矢状切面 · 面部在左、枕部在右",
+    landmarks:["先以胼胝体的 C 形白质束定中心", "胼胝体下方找丘脑、下丘脑和垂体柄", "向后下追踪中脑—桥脑—延髓的连续关系"],
+    labels:[["Corpus callosum","胼胝体"],["Thalamus","丘脑"],["Hypothalamus","下丘脑"],["Pituitary gland","垂体"],["Midbrain","中脑"]]
+  },
+  "ventricles": {
+    image:"assets/anatomy-reference/ventricles.jpg", orientation:"矢状切面 + 脑脊液流向",
+    landmarks:["从侧脑室开始顺箭头追踪", "第三脑室到第四脑室之间最细的是中脑导水管", "第四脑室出口通向蛛网膜下腔，最终经蛛网膜颗粒回流"],
+    labels:[["Lateral ventricle","侧脑室"],["Interventricular foramen","室间孔"],["Third ventricle","第三脑室"],["Cerebral aqueduct","中脑导水管"],["Fourth ventricle","第四脑室"]]
+  },
+  "willis": {
+    image:"assets/anatomy-reference/willis.jpg", orientation:"脑底观 · 上方为前循环，下方为椎基底循环",
+    landmarks:["先找左右颈内动脉与椎—基底动脉两套入口", "沿 ACA—前交通—ACA 看前方闭环", "沿后交通动脉连接 PCA，判断环是否完整"],
+    labels:[["Internal carotid artery","颈内动脉（ICA）"],["Anterior cerebral artery","大脑前动脉（ACA）"],["Middle cerebral artery","大脑中动脉（MCA）"],["Posterior communicating artery","后交通动脉（PComA）"],["Basilar artery","基底动脉（BA）"]]
+  },
+  "brainstem": {
+    image:"assets/anatomy-reference/brainstem.jpg", orientation:"脑干侧面/腹侧关系 · 自上而下",
+    landmarks:["中脑在上，桥脑呈腹侧膨隆，延髓向下续脊髓", "小脑位于桥脑与延髓后方", "先按脑干分段，再记对应颅神经，避免把神经画成同一排"],
+    labels:[["Midbrain","中脑"],["Pons","桥脑"],["Medulla oblongata","延髓"],["Cerebellum","小脑"],["Spinal cord","脊髓"]]
+  },
+  "spinal": {
+    image:"assets/anatomy-reference/spinal.jpg", orientation:"脊髓横断面 · 后方在上、前方在下",
+    landmarks:["后角细长、前角宽大，可先据此定前后", "中央 H 形为灰质，外围为白质", "后根有脊神经节，前根没有"],
+    labels:[["Posterior horn","后角（感觉相关）"],["Anterior horn","前角（运动相关）"],["Central canal","中央管"],["Posterior root ganglion","脊神经节"],["White matter","白质"]]
+  },
+  "spine-side": {
+    image:"assets/anatomy-reference/spine-side.jpg", orientation:"左：侧面关系；右：椎间盘横断面",
+    landmarks:["椎体位于前方，椎管和棘突位于后方", "椎间盘由外层纤维环包绕中央髓核", "神经根从相邻椎骨形成的椎间孔离开"],
+    labels:[["Vertebral body","椎体"],["Intervertebral disc","椎间盘"],["Anulus fibrosus","纤维环"],["Nucleus pulposus","髓核"],["Intervertebral foramen","椎间孔"]]
+  },
+  "dural-layers": {
+    image:"assets/anatomy-reference/dural-layers.jpg", orientation:"颅底内面：上图俯视、下图侧面",
+    landmarks:["先分前、中、后颅窝，三者由浅到深", "蝶骨小翼分前窝与中窝，岩骨嵴分中窝与后窝", "枕骨大孔位于后颅窝，是延髓—脊髓交界门户"],
+    labels:[["Anterior cranial fossa","前颅窝"],["Middle cranial fossa","中颅窝"],["Posterior cranial fossa","后颅窝"],["Foramen magnum","枕骨大孔"],["Petrous ridge","岩骨嵴"]]
+  },
+  "scalp": {
+    image:null, orientation:"层次示意 · 上方为体表，下方为颅骨",
+    landmarks:["按 S-C-A-L-P 从浅到深记五层", "前三层紧密相连，整体移动", "第四层疏松结缔组织可广泛扩散，是危险层"],
+    labels:[["Skin","皮肤"],["Connective tissue","皮下致密结缔组织"],["Aponeurosis","帽状腱膜"],["Loose areolar tissue","腱膜下疏松层"],["Pericranium","颅骨膜"]]
+  }
+};
